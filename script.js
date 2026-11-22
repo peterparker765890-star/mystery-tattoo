@@ -1,980 +1,753 @@
-/* =========================================================
+/* ==========================================
+   THE HARBOUR
    THE MYSTERY TATTOO
-   CINEMATIC PSYCHOLOGICAL HORROR ENGINE
-   VERSION 2.0
-   DESIGNED & DEVELOPED BY SABARISH P
-   ========================================================= */
+   CINEMATIC HORROR ENGINE
+========================================== */
 
-document.addEventListener("DOMContentLoaded", () => {
 
-    "use strict";
+/* ==========================================
+   1. CINEMATIC SNOWFALL
+========================================== */
 
-    /* =====================================================
-       1. ELEMENT REFERENCES
-       ===================================================== */
+const canvas = document.getElementById("snow");
+const ctx = canvas.getContext("2d");
 
-    const soundButton = document.getElementById("soundToggle");
-    const snowButton = document.getElementById("snowToggle");
+let snowflakes = [];
+let snowEnabled = true;
 
-    const canvas = document.getElementById("snow");
-    const flash = document.getElementById("flash");
-    const snake = document.getElementById("snake");
-    const eyes = document.getElementById("red-eyes");
+function resizeSnow() {
 
-    const progressBar = document.getElementById("progressBar");
+    canvas.width = window.innerWidth * devicePixelRatio;
+    canvas.height = window.innerHeight * devicePixelRatio;
 
-    const finalTrigger = document.querySelector(
-        ".final-eyes-trigger"
+    canvas.style.width = window.innerWidth + "px";
+    canvas.style.height = window.innerHeight + "px";
+
+    ctx.setTransform(
+        devicePixelRatio,
+        0,
+        0,
+        devicePixelRatio,
+        0,
+        0
     );
 
-    const reducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-    ).matches;
+    snowflakes = [];
 
+    const count = Math.min(
+        180,
+        Math.floor(window.innerWidth / 5)
+    );
 
-    /* =====================================================
-       2. GLOBAL SETTINGS
-       ===================================================== */
+    for (let i = 0; i < count; i++) {
 
-    const SETTINGS = {
-        thunderVolume: 0.55,
-        rainVolume: 0.035,
+        snowflakes.push({
 
-        lightningMinimum: 10000,
-        lightningMaximum: 18000,
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
 
-        thunderDelayMinimum: 650,
-        thunderDelayMaximum: 1100,
+            radius: Math.random() * 2.5 + 0.5,
 
-        eyeRevealDelay: 1800
-    };
+            speed: Math.random() * 0.9 + 0.3,
 
+            drift: Math.random() * 0.8 - 0.4,
 
-    /* =====================================================
-       3. AUDIO ENGINE
-       ===================================================== */
+            opacity: Math.random() * 0.65 + 0.2,
 
-    let audioContext = null;
-    let masterGain = null;
+            phase: Math.random() * Math.PI * 2
 
-    let soundEnabled = false;
+        });
 
-    let rainSource = null;
-    let rainGain = null;
-
-    const activeSources = new Set();
-
-    function initializeAudio() {
-
-        if (audioContext) {
-            return audioContext.resume();
-        }
-
-        const AudioContextClass =
-            window.AudioContext ||
-            window.webkitAudioContext;
-
-        if (!AudioContextClass) {
-            throw new Error("Web Audio is not supported.");
-        }
-
-        audioContext = new AudioContextClass();
-
-        masterGain = audioContext.createGain();
-
-        masterGain.gain.value = 0;
-
-        masterGain.connect(audioContext.destination);
-
-        return audioContext.resume();
     }
 
+}
 
-    function registerSource(source) {
+function drawSnow() {
 
-        activeSources.add(source);
+    ctx.clearRect(
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight
+    );
 
-        source.addEventListener("ended", () => {
-            activeSources.delete(source);
-        }, { once: true });
+    if (snowEnabled) {
 
-        return source;
+        snowflakes.forEach(flake => {
+
+            flake.phase += 0.01;
+
+            flake.x +=
+                flake.drift +
+                Math.sin(flake.phase) * 0.25;
+
+            flake.y += flake.speed;
+
+            if (flake.y > window.innerHeight + 5) {
+
+                flake.y = -5;
+
+                flake.x =
+                    Math.random() * window.innerWidth;
+
+            }
+
+            if (flake.x > window.innerWidth + 5) {
+                flake.x = -5;
+            }
+
+            if (flake.x < -5) {
+                flake.x = window.innerWidth + 5;
+            }
+
+            ctx.beginPath();
+
+            ctx.arc(
+                flake.x,
+                flake.y,
+                flake.radius,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fillStyle =
+                `rgba(255,255,255,${flake.opacity})`;
+
+            ctx.shadowBlur = flake.radius * 5;
+
+            ctx.shadowColor = "white";
+
+            ctx.fill();
+
+        });
+
     }
 
+    ctx.shadowBlur = 0;
 
-    function restoreAudioVolume() {
+    requestAnimationFrame(drawSnow);
 
-        if (!audioContext || !masterGain) return;
+}
 
-        const now = audioContext.currentTime;
+resizeSnow();
 
-        masterGain.gain.cancelScheduledValues(now);
+drawSnow();
 
-        masterGain.gain.setTargetAtTime(
-            0.65,
-            now,
-            0.15
+window.addEventListener("resize", resizeSnow);
+
+
+/* ==========================================
+   2. SNOW CONTROL
+========================================== */
+
+const snowButton = document.getElementById("snowBtn");
+
+if (snowButton) {
+
+    snowButton.addEventListener("click", function () {
+
+        snowEnabled = !snowEnabled;
+
+        this.textContent =
+            snowEnabled ? "SNOW: ON" : "SNOW: OFF";
+
+        this.classList.toggle(
+            "active",
+            snowEnabled
         );
-    }
+
+    });
+
+}
 
 
-    function muteAudioImmediately() {
+/* ==========================================
+   3. CINEMATIC CHAPTER REVEAL
+========================================== */
 
-        if (!audioContext || !masterGain) return;
+const chapterObserver = new IntersectionObserver(
 
-        const now = audioContext.currentTime;
+    entries => {
 
-        masterGain.gain.cancelScheduledValues(now);
+        entries.forEach(entry => {
 
-        masterGain.gain.setValueAtTime(0, now);
+            if (entry.isIntersecting) {
 
-        activeSources.forEach(source => {
+                entry.target.classList.add("visible");
 
-            try {
-                source.stop();
-            } catch (error) {
-                // Already stopped.
             }
 
         });
 
-        activeSources.clear();
+    },
 
-        rainSource = null;
-        rainGain = null;
+    {
+        threshold: 0.08
     }
 
+);
 
-    /* =====================================================
-       4. AUDIO NOISE GENERATOR
-       ===================================================== */
+document.querySelectorAll(".chapter").forEach(chapter => {
 
-    function createNoiseBuffer(duration) {
+    chapterObserver.observe(chapter);
 
-        const sampleRate = audioContext.sampleRate;
+});
 
-        const buffer = audioContext.createBuffer(
-            1,
-            Math.ceil(sampleRate * duration),
-            sampleRate
-        );
 
-        const data = buffer.getChannelData(0);
+/* ==========================================
+   4. HORROR AUDIO ENGINE
+========================================== */
 
-        for (let i = 0; i < data.length; i++) {
+let audioContext = null;
 
-            data[i] = Math.random() * 2 - 1;
+let masterGain = null;
 
-        }
+let soundEnabled = false;
 
-        return buffer;
-    }
+let ambientTimer = null;
 
 
-    /* =====================================================
-       5. CINEMATIC THUNDER
-       ===================================================== */
+function initializeAudio() {
 
-    function playThunder() {
+    if (audioContext) return;
 
-        if (!soundEnabled || !audioContext) return;
+    audioContext = new (
+        window.AudioContext ||
+        window.webkitAudioContext
+    )();
 
-        const now = audioContext.currentTime;
+    masterGain = audioContext.createGain();
 
-        /* Main low-frequency thunder */
+    masterGain.gain.value = 0.32;
 
-        const rumble = audioContext.createBufferSource();
-
-        rumble.buffer = createNoiseBuffer(8);
-
-        const rumbleFilter =
-            audioContext.createBiquadFilter();
-
-        rumbleFilter.type = "lowpass";
-        rumbleFilter.frequency.value = 110;
-        rumbleFilter.Q.value = 0.65;
-
-        const rumbleGain = audioContext.createGain();
-
-        rumbleGain.gain.setValueAtTime(0.001, now);
-
-        rumbleGain.gain.linearRampToValueAtTime(
-            SETTINGS.thunderVolume,
-            now + 0.9
-        );
-
-        rumbleGain.gain.exponentialRampToValueAtTime(
-            0.001,
-            now + 8
-        );
-
-        rumble.connect(rumbleFilter);
-
-        rumbleFilter.connect(rumbleGain);
-
-        rumbleGain.connect(masterGain);
-
-        registerSource(rumble);
-
-        rumble.start(now);
-
-
-        /* Secondary distant rolling thunder */
-
-        const distant = audioContext.createBufferSource();
-
-        distant.buffer = createNoiseBuffer(6);
-
-        const distantFilter =
-            audioContext.createBiquadFilter();
-
-        distantFilter.type = "lowpass";
-        distantFilter.frequency.value = 65;
-
-        const distantGain = audioContext.createGain();
-
-        distantGain.gain.setValueAtTime(0.001, now + 0.5);
-
-        distantGain.gain.linearRampToValueAtTime(
-            0.2,
-            now + 2.2
-        );
-
-        distantGain.gain.exponentialRampToValueAtTime(
-            0.001,
-            now + 6
-        );
-
-        distant.connect(distantFilter);
-
-        distantFilter.connect(distantGain);
-
-        distantGain.connect(masterGain);
-
-        registerSource(distant);
-
-        distant.start(now + 0.5);
-    }
-
-
-    /* =====================================================
-       6. RAIN AMBIENCE
-       ===================================================== */
-
-    function startRainAmbience() {
-
-        if (!soundEnabled || !audioContext) return;
-
-        if (rainSource) return;
-
-        rainSource = audioContext.createBufferSource();
-
-        rainSource.buffer = createNoiseBuffer(5);
-
-        rainSource.loop = true;
-
-        const filter =
-            audioContext.createBiquadFilter();
-
-        filter.type = "lowpass";
-        filter.frequency.value = 850;
-
-        rainGain = audioContext.createGain();
-
-        rainGain.gain.value = SETTINGS.rainVolume;
-
-        rainSource.connect(filter);
-
-        filter.connect(rainGain);
-
-        rainGain.connect(masterGain);
-
-        registerSource(rainSource);
-
-        rainSource.start();
-    }
-
-
-    /* =====================================================
-       7. SOUND CONFIRMATION
-       ===================================================== */
-
-    function playConfirmation() {
-
-        if (!soundEnabled || !audioContext) return;
-
-        const oscillator =
-            audioContext.createOscillator();
-
-        const gain = audioContext.createGain();
-
-        oscillator.type = "sine";
-
-        oscillator.frequency.value = 440;
-
-        const now = audioContext.currentTime;
-
-        gain.gain.setValueAtTime(0.001, now);
-
-        gain.gain.linearRampToValueAtTime(
-            0.04,
-            now + 0.04
-        );
-
-        gain.gain.exponentialRampToValueAtTime(
-            0.001,
-            now + 0.22
-        );
-
-        oscillator.connect(gain);
-
-        gain.connect(masterGain);
-
-        registerSource(oscillator);
-
-        oscillator.start(now);
-
-        oscillator.stop(now + 0.25);
-    }
-
-
-    /* =====================================================
-       8. SOUND BUTTON
-       ===================================================== */
-
-    if (soundButton) {
-
-        soundButton.textContent = "SOUND: OFF";
-
-        soundButton.setAttribute(
-            "aria-pressed",
-            "false"
-        );
-
-        soundButton.addEventListener(
-            "click",
-            async () => {
-
-                if (!soundEnabled) {
-
-                    try {
-
-                        await initializeAudio();
-
-                        soundEnabled = true;
-
-                        restoreAudioVolume();
-
-                        soundButton.textContent =
-                            "SOUND: ON";
-
-                        soundButton.setAttribute(
-                            "aria-pressed",
-                            "true"
-                        );
-
-                        playConfirmation();
-
-                        setTimeout(() => {
-
-                            if (soundEnabled) {
-                                startRainAmbience();
-                            }
-
-                        }, 300);
-
-                    } catch (error) {
-
-                        soundEnabled = false;
-
-                        soundButton.textContent =
-                            "SOUND UNAVAILABLE";
-
-                        console.error(
-                            "Audio initialization failed:",
-                            error
-                        );
-                    }
-
-                } else {
-
-                    soundEnabled = false;
-
-                    muteAudioImmediately();
-
-                    soundButton.textContent =
-                        "SOUND: OFF";
-
-                    soundButton.setAttribute(
-                        "aria-pressed",
-                        "false"
-                    );
-                }
-
-            }
-        );
-    }
-
-
-    /* =====================================================
-       9. LIGHTNING EFFECT
-       ===================================================== */
-
-    let lightningInProgress = false;
-
-    function triggerLightning() {
-
-        if (!flash || lightningInProgress) return;
-
-        lightningInProgress = true;
-
-        flash.classList.remove("active");
-
-        void flash.offsetWidth;
-
-        flash.classList.add("active");
-
-        setTimeout(() => {
-
-            flash.classList.remove("active");
-
-            lightningInProgress = false;
-
-        }, 850);
-    }
-
-
-    /* =====================================================
-       10. LIGHTNING + DELAYED THUNDER
-       ===================================================== */
-
-    function triggerLightningAndThunder() {
-
-        triggerLightning();
-
-        if (!soundEnabled) return;
-
-        const delay =
-            SETTINGS.thunderDelayMinimum +
-            Math.random() *
-            (
-                SETTINGS.thunderDelayMaximum -
-                SETTINGS.thunderDelayMinimum
-            );
-
-        setTimeout(() => {
-
-            if (soundEnabled) {
-                playThunder();
-            }
-
-        }, delay);
-    }
-
-
-    /* =====================================================
-       11. STORM SYSTEM
-       ===================================================== */
-
-    let stormTimer = null;
-
-    function randomStormDelay() {
-
-        return SETTINGS.lightningMinimum +
-            Math.random() *
-            (
-                SETTINGS.lightningMaximum -
-                SETTINGS.lightningMinimum
-            );
-    }
-
-
-    function scheduleStormLightning() {
-
-        if (!document.body.classList.contains("mode-storm")) {
-            return;
-        }
-
-        stormTimer = setTimeout(() => {
-
-            if (
-                document.body.classList.contains("mode-storm")
-            ) {
-
-                if (Math.random() > 0.4) {
-                    triggerLightningAndThunder();
-                }
-
-                scheduleStormLightning();
-            }
-
-        }, randomStormDelay());
-    }
-
-
-    function startStorm() {
-
-        document.body.classList.add("mode-storm");
-
-        if (reducedMotion || stormTimer) return;
-
-        scheduleStormLightning();
-    }
-
-
-    function stopStorm() {
-
-        document.body.classList.remove("mode-storm");
-
-        if (stormTimer) {
-
-            clearTimeout(stormTimer);
-
-            stormTimer = null;
-        }
-    }
-
-
-    /* =====================================================
-       12. SCENE EFFECT SYSTEM
-       ===================================================== */
-
-    function triggerScene(effect) {
-
-        switch (effect) {
-
-            case "tattoo":
-
-                document.body.classList.add(
-                    "tattoo-reveal"
-                );
-
-                break;
-
-
-            case "snake":
-
-                if (snake) {
-
-                    snake.classList.remove("active");
-
-                    void snake.offsetWidth;
-
-                    snake.classList.add("active");
-                }
-
-                break;
-
-
-            case "snake-death":
-
-                triggerLightning();
-
-                break;
-
-
-            case "car-impact":
-
-                triggerLightning();
-
-                break;
-
-
-            case "arrow":
-
-                triggerLightning();
-
-                break;
-
-
-            case "fire":
-
-                document.body.classList.add("mode-hell");
-
-                break;
-
-
-            case "fire-death":
-
-                document.body.classList.remove("mode-hell");
-
-                break;
-
-
-            case "church-storm":
-
-                startStorm();
-
-                triggerLightningAndThunder();
-
-                break;
-
-
-            case "witch":
-
-                document.body.classList.add("mode-hell");
-
-                break;
-
-
-            case "witch-attack":
-
-                triggerLightningAndThunder();
-
-                break;
-
-
-            case "angel-entrance":
-
-                document.body.classList.remove("mode-hell");
-
-                document.body.classList.add("mode-heaven");
-
-                break;
-
-
-            case "heaven-hell-battle":
-
-                triggerLightningAndThunder();
-
-                break;
-
-
-            case "witch-destruction":
-
-                document.body.classList.remove("mode-hell");
-
-                triggerLightningAndThunder();
-
-                break;
-
-
-            case "church-collapse":
-
-                triggerLightningAndThunder();
-
-                break;
-        }
-    }
-
-
-    /* =====================================================
-       13. SCENE MARKER OBSERVER
-       ===================================================== */
-
-    const sceneMarkers = document.querySelectorAll(
-        ".scene-marker[data-effect]"
+    masterGain.connect(
+        audioContext.destination
     );
 
-    const sceneObserver = new IntersectionObserver(
-        entries => {
+}
 
-            entries.forEach(entry => {
 
-                if (entry.isIntersecting) {
+/* ==========================================
+   5. ATMOSPHERIC WIND
+========================================== */
 
-                    const effect =
-                        entry.target.dataset.effect;
+function playWind() {
 
-                    triggerScene(effect);
-                }
+    if (!soundEnabled) return;
 
-            });
+    const duration = 4;
 
-        },
-        {
-            threshold: 0.2
-        }
+    const buffer = audioContext.createBuffer(
+        1,
+        audioContext.sampleRate * duration,
+        audioContext.sampleRate
     );
 
-    sceneMarkers.forEach(marker => {
+    const data = buffer.getChannelData(0);
 
-        sceneObserver.observe(marker);
+    for (let i = 0; i < data.length; i++) {
 
-    });
+        data[i] = (Math.random() * 2 - 1) * 0.5;
 
-
-    /* =====================================================
-       14. FINAL EYES REVEAL
-       ===================================================== */
-
-    let eyesRevealed = false;
-
-    if (finalTrigger && eyes) {
-
-        const eyesObserver = new IntersectionObserver(
-            entries => {
-
-                entries.forEach(entry => {
-
-                    if (
-                        entry.isIntersecting &&
-                        !eyesRevealed
-                    ) {
-
-                        eyesRevealed = true;
-
-                        setTimeout(() => {
-
-                            document.body.classList.add(
-                                "final-darkness"
-                            );
-
-                            setTimeout(() => {
-
-                                eyes.classList.add("active");
-
-                            }, SETTINGS.eyeRevealDelay);
-
-                        }, 1500);
-                    }
-
-                });
-
-            },
-            {
-                threshold: 0.4
-            }
-        );
-
-        eyesObserver.observe(finalTrigger);
     }
 
+    const source = audioContext.createBufferSource();
 
-    /* =====================================================
-       15. SNOW ANIMATION
-       ===================================================== */
+    const filter = audioContext.createBiquadFilter();
 
-    let snowEnabled = true;
+    const gain = audioContext.createGain();
 
-    let snowflakes = [];
+    source.buffer = buffer;
 
-    const ctx = canvas
-        ? canvas.getContext("2d")
-        : null;
+    filter.type = "lowpass";
+
+    filter.frequency.value = 280;
+
+    gain.gain.setValueAtTime(
+        0.0001,
+        audioContext.currentTime
+    );
+
+    gain.gain.linearRampToValueAtTime(
+        0.13,
+        audioContext.currentTime + 1
+    );
+
+    gain.gain.linearRampToValueAtTime(
+        0.0001,
+        audioContext.currentTime + duration
+    );
+
+    source.connect(filter);
+
+    filter.connect(gain);
+
+    gain.connect(masterGain);
+
+    source.start();
+
+}
 
 
-    function resizeSnow() {
+/* ==========================================
+   6. DEEP THUNDER
+========================================== */
 
-        if (!canvas || !ctx) return;
+function playThunder() {
 
-        const ratio = Math.min(
-            window.devicePixelRatio || 1,
+    if (!soundEnabled) return;
+
+    const duration = 3.5;
+
+    const buffer = audioContext.createBuffer(
+        1,
+        audioContext.sampleRate * duration,
+        audioContext.sampleRate
+    );
+
+    const data = buffer.getChannelData(0);
+
+    for (let i = 0; i < data.length; i++) {
+
+        const envelope = Math.pow(
+            1 - i / data.length,
             2
         );
 
-        canvas.width = window.innerWidth * ratio;
+        data[i] =
+            (Math.random() * 2 - 1) * envelope;
 
-        canvas.height = window.innerHeight * ratio;
-
-        canvas.style.width = window.innerWidth + "px";
-
-        canvas.style.height = window.innerHeight + "px";
-
-        ctx.setTransform(
-            ratio,
-            0,
-            0,
-            ratio,
-            0,
-            0
-        );
-
-        snowflakes = [];
-
-        const count = Math.min(
-            65,
-            Math.floor(window.innerWidth / 8)
-        );
-
-        for (let i = 0; i < count; i++) {
-
-            snowflakes.push({
-
-                x: Math.random() * window.innerWidth,
-
-                y: Math.random() * window.innerHeight,
-
-                radius: Math.random() * 1.8 + 0.5,
-
-                speed: Math.random() * 0.65 + 0.2,
-
-                drift: Math.random() * 0.5 - 0.25,
-
-                opacity: Math.random() * 0.45 + 0.15
-            });
-        }
     }
 
+    const source = audioContext.createBufferSource();
 
-    function animateSnow() {
+    const filter = audioContext.createBiquadFilter();
 
-        if (!canvas || !ctx) return;
+    const gain = audioContext.createGain();
 
-        ctx.clearRect(
-            0,
-            0,
-            window.innerWidth,
-            window.innerHeight
-        );
+    source.buffer = buffer;
 
-        if (snowEnabled) {
+    filter.type = "lowpass";
 
-            snowflakes.forEach(flake => {
+    filter.frequency.value = 180;
 
-                ctx.beginPath();
-
-                ctx.arc(
-                    flake.x,
-                    flake.y,
-                    flake.radius,
-                    0,
-                    Math.PI * 2
-                );
-
-                ctx.fillStyle =
-                    `rgba(225,225,225,${flake.opacity})`;
-
-                ctx.fill();
-
-                flake.y += flake.speed;
-
-                flake.x += flake.drift;
-
-                if (flake.y > window.innerHeight) {
-
-                    flake.y = -5;
-
-                    flake.x =
-                        Math.random() * window.innerWidth;
-                }
-
-                if (flake.x > window.innerWidth) {
-                    flake.x = 0;
-                }
-
-                if (flake.x < 0) {
-                    flake.x = window.innerWidth;
-                }
-
-            });
-        }
-
-        requestAnimationFrame(animateSnow);
-    }
-
-
-    if (canvas && ctx) {
-
-        resizeSnow();
-
-        animateSnow();
-
-        window.addEventListener(
-            "resize",
-            resizeSnow
-        );
-    }
-
-
-    /* =====================================================
-       16. SNOW TOGGLE
-       ===================================================== */
-
-    if (snowButton) {
-
-        snowButton.textContent = "SNOW: ON";
-
-        snowButton.setAttribute(
-            "aria-pressed",
-            "true"
-        );
-
-        snowButton.addEventListener("click", () => {
-
-            snowEnabled = !snowEnabled;
-
-            snowButton.textContent = snowEnabled
-                ? "SNOW: ON"
-                : "SNOW: OFF";
-
-            snowButton.setAttribute(
-                "aria-pressed",
-                String(snowEnabled)
-            );
-        });
-    }
-
-
-    /* =====================================================
-       17. READING PROGRESS
-       ===================================================== */
-
-    function updateProgress() {
-
-        if (!progressBar) return;
-
-        const scrollTop =
-            window.scrollY ||
-            document.documentElement.scrollTop;
-
-        const scrollHeight =
-            document.documentElement.scrollHeight -
-            window.innerHeight;
-
-        const progress = scrollHeight > 0
-            ? (scrollTop / scrollHeight) * 100
-            : 0;
-
-        progressBar.style.width =
-            Math.min(
-                100,
-                Math.max(0, progress)
-            ) + "%";
-    }
-
-
-    window.addEventListener(
-        "scroll",
-        updateProgress,
-        { passive: true }
+    gain.gain.setValueAtTime(
+        0.65,
+        audioContext.currentTime
     );
 
-    window.addEventListener(
-        "resize",
-        updateProgress
+    gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime + duration
     );
 
-    updateProgress();
+    source.connect(filter);
+
+    filter.connect(gain);
+
+    gain.connect(masterGain);
+
+    source.start();
+
+    setTimeout(() => {
+
+        if (soundEnabled) {
+
+            playThunderRumble();
+
+        }
+
+    }, 700);
+
+}
 
 
-    /* =====================================================
-       18. PAGE CLEANUP
-       ===================================================== */
+function playThunderRumble() {
 
-    window.addEventListener("pagehide", () => {
+    if (!soundEnabled) return;
 
-        stopStorm();
+    const oscillator = audioContext.createOscillator();
 
-        soundEnabled = false;
+    const gain = audioContext.createGain();
 
-        muteAudioImmediately();
+    oscillator.type = "sine";
+
+    oscillator.frequency.setValueAtTime(
+        55,
+        audioContext.currentTime
+    );
+
+    oscillator.frequency.exponentialRampToValueAtTime(
+        28,
+        audioContext.currentTime + 2
+    );
+
+    gain.gain.setValueAtTime(
+        0.001,
+        audioContext.currentTime
+    );
+
+    gain.gain.linearRampToValueAtTime(
+        0.25,
+        audioContext.currentTime + 0.2
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime + 2.5
+    );
+
+    oscillator.connect(gain);
+
+    gain.connect(masterGain);
+
+    oscillator.start();
+
+    oscillator.stop(
+        audioContext.currentTime + 2.5
+    );
+
+}
+
+
+/* ==========================================
+   7. CINEMATIC IMPACT
+========================================== */
+
+function playImpact() {
+
+    if (!soundEnabled) return;
+
+    const now = audioContext.currentTime;
+
+    const oscillator = audioContext.createOscillator();
+
+    const gain = audioContext.createGain();
+
+    oscillator.type = "sawtooth";
+
+    oscillator.frequency.setValueAtTime(
+        120,
+        now
+    );
+
+    oscillator.frequency.exponentialRampToValueAtTime(
+        25,
+        now + 0.45
+    );
+
+    gain.gain.setValueAtTime(0.001, now);
+
+    gain.gain.linearRampToValueAtTime(
+        0.9,
+        now + 0.015
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        now + 0.8
+    );
+
+    oscillator.connect(gain);
+
+    gain.connect(masterGain);
+
+    oscillator.start();
+
+    oscillator.stop(now + 0.8);
+
+}
+
+
+/* ==========================================
+   8. HORROR STINGER
+========================================== */
+
+function playStinger() {
+
+    if (!soundEnabled) return;
+
+    const now = audioContext.currentTime;
+
+    const oscillator = audioContext.createOscillator();
+
+    const gain = audioContext.createGain();
+
+    oscillator.type = "triangle";
+
+    oscillator.frequency.setValueAtTime(
+        950,
+        now
+    );
+
+    oscillator.frequency.exponentialRampToValueAtTime(
+        75,
+        now + 1.1
+    );
+
+    gain.gain.setValueAtTime(0.001, now);
+
+    gain.gain.linearRampToValueAtTime(
+        0.55,
+        now + 0.025
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        now + 1.2
+    );
+
+    oscillator.connect(gain);
+
+    gain.connect(masterGain);
+
+    oscillator.start();
+
+    oscillator.stop(now + 1.2);
+
+}
+
+
+/* ==========================================
+   9. AMBIENT SOUND MANAGEMENT
+========================================== */
+
+function startAmbient() {
+
+    stopAmbient();
+
+    playWind();
+
+    ambientTimer = setInterval(() => {
+
+        if (!soundEnabled) return;
+
+        playWind();
+
+        if (Math.random() > 0.65) {
+
+            setTimeout(() => {
+
+                if (soundEnabled) {
+
+                    playThunder();
+
+                }
+
+            }, Math.random() * 1200);
+
+        }
+
+    }, 6500);
+
+}
+
+
+function stopAmbient() {
+
+    if (ambientTimer) {
+
+        clearInterval(ambientTimer);
+
+        ambientTimer = null;
+
+    }
+
+}
+
+
+/* ==========================================
+   10. SOUND BUTTON
+========================================== */
+
+const soundButton = document.getElementById("soundBtn");
+
+if (soundButton) {
+
+    soundButton.addEventListener("click", async function () {
+
+        initializeAudio();
+
+        if (audioContext.state === "suspended") {
+
+            await audioContext.resume();
+
+        }
+
+        soundEnabled = !soundEnabled;
+
+        this.textContent =
+            soundEnabled ? "SOUND: ON" : "SOUND: OFF";
+
+        this.classList.toggle(
+            "active",
+            soundEnabled
+        );
+
+        if (soundEnabled) {
+
+            startAmbient();
+
+        } else {
+
+            stopAmbient();
+
+        }
 
     });
 
+}
 
-    /* =====================================================
-       19. INITIALIZATION
-       ===================================================== */
 
-    console.log(
-        "%cTHE MYSTERY TATTOO",
-        "color:#c6a45c;font-size:20px;font-weight:bold;"
+/* ==========================================
+   11. CINEMATIC FLASH
+========================================== */
+
+function triggerFlash() {
+
+    const flash = document.getElementById("flash");
+
+    if (!flash) return;
+
+    flash.classList.remove("trigger");
+
+    void flash.offsetWidth;
+
+    flash.classList.add("trigger");
+
+}
+
+
+/* ==========================================
+   12. STORY JUMP-SCARE SEQUENCES
+========================================== */
+
+const scareScenes = [
+
+    {
+        id: "chapter2",
+        sound: playStinger
+    },
+
+    {
+        id: "chapter3",
+        sound: playImpact
+    },
+
+    {
+        id: "chapter4",
+        sound: playStinger
+    },
+
+    {
+        id: "chapter6",
+        sound: playImpact
+    },
+
+    {
+        id: "chapter7",
+        sound: playThunder,
+        flash: true
+    },
+
+    {
+        id: "chapter8",
+        sound: playStinger,
+        flash: true
+    }
+
+];
+
+
+const playedScares = new Set();
+
+
+const scareObserver = new IntersectionObserver(
+
+    entries => {
+
+        entries.forEach(entry => {
+
+            if (!entry.isIntersecting) return;
+
+            if (!soundEnabled) return;
+
+            const scene = scareScenes.find(
+                item => item.id === entry.target.id
+            );
+
+            if (!scene) return;
+
+            if (playedScares.has(scene.id)) return;
+
+            playedScares.add(scene.id);
+
+            scene.sound();
+
+            if (scene.flash) {
+
+                triggerFlash();
+
+            }
+
+        });
+
+    },
+
+    {
+        threshold: 0.65
+    }
+
+);
+
+
+scareScenes.forEach(scene => {
+
+    const element = document.getElementById(
+        scene.id
     );
 
-    console.log(
-        "%cCinematic Horror Engine Loaded",
-        "color:#999;font-size:12px;"
-    );
+    if (element) {
+
+        scareObserver.observe(element);
+
+    }
 
 });
+
+
+/* ==========================================
+   13. PAGE VISIBILITY AUDIO MANAGEMENT
+========================================== */
+
+document.addEventListener(
+    "visibilitychange",
+    () => {
+
+        if (!audioContext) return;
+
+        if (document.hidden) {
+
+            audioContext.suspend();
+
+        } else if (soundEnabled) {
+
+            audioContext.resume();
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   14. CLEAN INITIALIZATION
+========================================== */
+
+console.log(
+    "THE HARBOUR | THE MYSTERY TATTOO"
+);
+
+console.log(
+    "Cinematic horror experience initialized."
+);
