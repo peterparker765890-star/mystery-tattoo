@@ -3,101 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080808">
 
     <title>THE MYSTERY TATTOO</title>
 
-    <meta name="description"
-          content="The Mystery Tattoo — A Supernatural Horror Story by Sabarish P.">
-
-    <meta name="theme-color" content="#080808">
-
-    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="The Mystery Tattoo — A supernatural horror story written by Sabarish P.">
+    <meta name="author" content="Sabarish P">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Crimson+Pro:wght@400;500;600&display=swap"
-          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Crimson+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- CINEMATIC ATMOSPHERE -->
+    <!-- ATMOSPHERIC EFFECTS -->
+
     <canvas id="snow"></canvas>
 
     <div id="flash"></div>
     <div id="snake"></div>
     <div id="red-eyes"></div>
 
+
     <!-- READER CONTROLS -->
+
     <div class="controls">
-        <button id="snowToggle" type="button">❄ Snow: ON</button>
-        <button id="soundToggle" type="button">♫ Sound: OFF</button>
+        <button id="snowToggle" type="button" aria-label="Toggle snowfall">
+            SNOW: ON
+        </button>
+
+        <button id="soundToggle" type="button" aria-label="Toggle sound">
+            SOUND: OFF
+        </button>
     </div>
 
+
     <!-- READING PROGRESS -->
+
     <div class="progress-container">
         <div id="progressBar"></div>
     </div>
 
 
-    <!-- =================================
-         CINEMATIC HOMEPAGE
-    ================================== -->
+    <!-- HERO SECTION -->
 
-    <header class="hero" id="home">
+    <header class="hero">
 
         <div class="hero-content">
 
-            <p class="eyebrow">A CHRISTMAS SUPERNATURAL HORROR</p>
-
-            <h1>THE MYSTERY<br>TATTOO</h1>
-
-            <div class="title-divider"></div>
-
-            <p class="subtitle">
-                A Supernatural Horror Story
+            <p class="hero-kicker">
+                A SUPERNATURAL HORROR STORY
             </p>
 
-            <p class="author">
-                WRITTEN BY SABARISH P
+            <h1>THE MYSTERY TATTOO</h1>
+
+            <div class="hero-divider"></div>
+
+            <p class="hero-subtitle">
+                Some gifts are not meant to be received.
             </p>
 
-            <a href="#reader" class="enter-button">
+            <div class="author-credit">
+                <span>WRITTEN BY</span>
+                <strong>SABARISH P</strong>
+                <span>B.TECH IT</span>
+            </div>
+
+            <a href="#reader" class="read-button">
                 ENTER THE STORY
             </a>
 
-            <p class="scroll-hint">
-                ↓ SCROLL INTO THE UNKNOWN ↓
-            </p>
+        </div>
 
+        <div class="hero-bottom">
+            SCROLL TO DISCOVER THE TRUTH
         </div>
 
     </header>
 
 
-    <!-- =================================
-         THE COMPLETE NOVEL
-         CONTINUOUS SCROLLING EXPERIENCE
-    ================================== -->
+    <!-- STORY CONTENT -->
 
-    <main id="reader">
+    <main id="reader" class="story-container">
 
 
         <!-- PROLOGUE -->
-        <section class="story-section"
-                 id="prologue"
-                 data-mode="calm">
 
-            <div class="chapter-heading">
+        <section class="story-section">
 
-                <span>THE BEGINNING</span>
+            <p class="section-label">THE BEGINNING</p>
 
-                <h2>PROLOGUE</h2>
+            <h2 class="chapter-heading">
+                PROLOGUE
+            </h2>
 
-                <h3>The Christmas Curse</h3>
-
-            </div>
+            <h3 class="chapter-title">
+                The Christmas Curse
+            </h3>
 
             <div class="story-text">
 
@@ -121,17 +127,18 @@
 
 
         <!-- CHAPTER 1 -->
-        <section class="story-section"
-                 id="chapter-1"
-                 data-mode="calm">
 
-            <div class="chapter-heading">
+        <section class="story-section">
 
-                <span>CHAPTER ONE</span>
+            <p class="section-label">CHAPTER 01</p>
 
-                <h2>The Magical Tattoo</h2>
+            <h2 class="chapter-heading">
+                CHAPTER 1
+            </h2>
 
-            </div>
+            <h3 class="chapter-title">
+                The Magical Tattoo
+            </h3>
 
             <div class="story-text">
 
@@ -189,27 +196,28 @@
 
                 <p>And the tattoos were not gifts.</p>
 
-                <div class="scene-marker" data-effect="tattoo"></div>
-
                 <p>They were death sentences.</p>
 
             </div>
+
+            <div class="scene-marker" data-effect="tattoo"></div>
 
         </section>
 
 
         <!-- CHAPTER 2 -->
-        <section class="story-section"
-                 id="chapter-2"
-                 data-mode="dark">
 
-            <div class="chapter-heading">
+        <section class="story-section">
 
-                <span>CHAPTER TWO</span>
+            <p class="section-label">CHAPTER 02</p>
 
-                <h2>The Snake</h2>
+            <h2 class="chapter-heading">
+                CHAPTER 2
+            </h2>
 
-            </div>
+            <h3 class="chapter-title">
+                The Snake
+            </h3>
 
             <div class="story-text">
 
@@ -309,8 +317,6 @@
 
                 <p>He vomited blood.</p>
 
-                <div class="scene-marker" data-effect="snake-death"></div>
-
                 <p>His body slowly became motionless.</p>
 
                 <p>"Henry?"</p>
@@ -335,21 +341,24 @@
 
             </div>
 
+            <div class="scene-marker" data-effect="snake-death"></div>
+
         </section>
 
 
         <!-- CHAPTER 3 -->
-        <section class="story-section"
-                 id="chapter-3"
-                 data-mode="dark">
 
-            <div class="chapter-heading">
+        <section class="story-section">
 
-                <span>CHAPTER THREE</span>
+            <p class="section-label">CHAPTER 03</p>
 
-                <h2>The Car</h2>
+            <h2 class="chapter-heading">
+                CHAPTER 3
+            </h2>
 
-            </div>
+            <h3 class="chapter-title">
+                The Car
+            </h3>
 
             <div class="story-text">
 
@@ -401,9 +410,9 @@
 
                 <p>"WILLIAM! MOVE!"</p>
 
-                <p>CRAAAAASH!</p>
-
                 <div class="scene-marker" data-effect="car-impact"></div>
+
+                <p>CRAAAAASH!</p>
 
                 <p>The vehicle struck him violently.</p>
 
@@ -463,17 +472,18 @@
 
 
         <!-- CHAPTER 4 -->
-        <section class="story-section"
-                 id="chapter-4"
-                 data-mode="dark">
 
-            <div class="chapter-heading">
+        <section class="story-section">
 
-                <span>CHAPTER FOUR</span>
+            <p class="section-label">CHAPTER 04</p>
 
-                <h2>The Arrow</h2>
+            <h2 class="chapter-heading">
+                CHAPTER 4
+            </h2>
 
-            </div>
+            <h3 class="chapter-title">
+                The Arrow
+            </h3>
 
             <div class="story-text">
 
@@ -529,9 +539,9 @@
 
                 <p>But suddenly—</p>
 
-                <p>THWACK!</p>
-
                 <div class="scene-marker" data-effect="arrow"></div>
+
+                <p>THWACK!</p>
 
                 <p>Another arrow came flying from behind them.</p>
 
@@ -587,17 +597,18 @@
 
 
         <!-- CHAPTER 5 -->
-        <section class="story-section"
-                 id="chapter-5"
-                 data-mode="dark">
 
-            <div class="chapter-heading">
+        <section class="story-section">
 
-                <span>CHAPTER FIVE</span>
+            <p class="section-label">CHAPTER 05</p>
 
-                <h2>The Revelation</h2>
+            <h2 class="chapter-heading">
+                CHAPTER 5
+            </h2>
 
-            </div>
+            <h3 class="chapter-title">
+                The Revelation
+            </h3>
 
             <div class="story-text">
 
@@ -695,21 +706,24 @@
 
             </div>
 
+            <div class="scene-marker" data-effect="witch"></div>
+
         </section>
 
 
         <!-- CHAPTER 6 -->
-        <section class="story-section"
-                 id="chapter-6"
-                 data-mode="storm">
 
-            <div class="chapter-heading">
+        <section class="story-section">
 
-                <span>CHAPTER SIX</span>
+            <p class="section-label">CHAPTER 06</p>
 
-                <h2>The Fire</h2>
+            <h2 class="chapter-heading">
+                CHAPTER 6
+            </h2>
 
-            </div>
+            <h3 class="chapter-title">
+                The Fire
+            </h3>
 
             <div class="story-text">
 
@@ -789,9 +803,9 @@
 
                 <p>It landed directly in the spilled petroleum.</p>
 
-                <p>WHOOSH!</p>
-
                 <div class="scene-marker" data-effect="fire"></div>
+
+                <p>WHOOSH!</p>
 
                 <p>Flames erupted instantly.</p>
 
@@ -867,17 +881,18 @@
 
 
         <!-- CHAPTER 7 -->
-        <section class="story-section"
-                 id="chapter-7"
-                 data-mode="hell">
 
-            <div class="chapter-heading">
+        <section class="story-section">
 
-                <span>CHAPTER SEVEN</span>
+            <p class="section-label">CHAPTER 07</p>
 
-                <h2>The Final Christmas</h2>
+            <h2 class="chapter-heading">
+                CHAPTER 7
+            </h2>
 
-            </div>
+            <h3 class="chapter-title">
+                The Final Christmas
+            </h3>
 
             <div class="story-text">
 
@@ -935,11 +950,11 @@
 
                 <p>Something dark appeared above the church.</p>
 
-                <div class="scene-marker" data-effect="witch"></div>
-
                 <p>A strange black mist began spreading across the ceiling.</p>
 
                 <p>It looked like a floating blanket of darkness.</p>
+
+                <div class="scene-marker" data-effect="witch-attack"></div>
 
                 <p>Two glowing red eyes emerged from within it.</p>
 
@@ -976,8 +991,6 @@
                 <p>He was lifted into the air and thrown violently against a wall.</p>
 
                 <p>CRASH!</p>
-
-                <div class="scene-marker" data-effect="witch-attack"></div>
 
                 <p>Pain spread through his body.</p>
 
@@ -1053,17 +1066,18 @@
 
 
         <!-- CHAPTER 8 -->
-        <section class="story-section"
-                 id="chapter-8"
-                 data-mode="heaven">
 
-            <div class="chapter-heading">
+        <section class="story-section">
 
-                <span>CHAPTER EIGHT</span>
+            <p class="section-label">CHAPTER 08</p>
 
-                <h2>The Battle Between Heaven and Hell</h2>
+            <h2 class="chapter-heading">
+                CHAPTER 8
+            </h2>
 
-            </div>
+            <h3 class="chapter-title">
+                The Battle Between Heaven and Hell
+            </h3>
 
             <div class="story-text">
 
@@ -1079,9 +1093,9 @@
 
                 <p>The witch roared and launched himself towards the heavenly figure.</p>
 
-                <div class="scene-marker" data-effect="heaven-hell-battle"></div>
-
                 <p>A terrifying battle began.</p>
+
+                <div class="scene-marker" data-effect="heaven-hell-battle"></div>
 
                 <p>Dark energy collided with brilliant white light.</p>
 
@@ -1121,9 +1135,9 @@
 
                 <p>His body slowly disintegrated.</p>
 
-                <div class="scene-marker" data-effect="witch-destruction"></div>
-
                 <p>Within moments, the evil witch turned into ashes.</p>
+
+                <div class="scene-marker" data-effect="witch-destruction"></div>
 
                 <p>A powerful wind swept through the church.</p>
 
@@ -1169,9 +1183,9 @@
 
                 <p>Moments later—</p>
 
-                <p>CRAAAAASH!</p>
-
                 <div class="scene-marker" data-effect="church-collapse"></div>
+
+                <p>CRAAAAASH!</p>
 
                 <p>The church collapsed behind him.</p>
 
@@ -1189,17 +1203,18 @@
 
 
         <!-- EPILOGUE -->
-        <section class="story-section"
-                 id="epilogue"
-                 data-mode="calm">
 
-            <div class="chapter-heading">
+        <section class="story-section">
 
-                <span>THE EPILOGUE</span>
+            <p class="section-label">THE FINAL CHAPTER</p>
 
-                <h2>One Year Later...</h2>
+            <h2 class="chapter-heading">
+                EPILOGUE
+            </h2>
 
-            </div>
+            <h3 class="chapter-title">
+                One Year Later...
+            </h3>
 
             <div class="story-text">
 
@@ -1285,70 +1300,113 @@
 
                 <p>The angels were still watching.</p>
 
-                <p>THE END.</p>
+            </div>
+
+        </section>
+
+
+        <!-- THE END -->
+
+        <section class="ending-section">
+
+            <div class="ending-content">
+
+                <div class="ending-divider"></div>
+
+                <h2>THE END</h2>
+
+                <p>OR IS IT?</p>
+
+                <div class="ending-divider"></div>
 
             </div>
 
         </section>
 
 
-        <!-- =================================
-             PREMIUM MORAL
-        ================================== -->
+        <!-- MORAL -->
 
-        <section class="moral-section" id="moral">
+        <section class="moral-section">
 
-            <div class="moral-content">
-
-                <p class="moral-label">
-                    BEYOND THE STORY
-                </p>
-
-                <blockquote>
-                    Sometimes, the greatest battle isn't between Heaven and Hell, but between the darkness within us and the light we choose to protect.
-                </blockquote>
-
-                <div class="title-divider"></div>
-
-                <p class="moral-signature">
-                    A THOUGHT TO REMEMBER
-                </p>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================
-             FINAL DARKNESS
-        ================================== -->
-
-        <section class="ending-section" id="ending">
-
-            <p class="ending-text">THE END</p>
-
-            <p class="ending-subtext">
-                Some stories never truly end...
+            <p class="section-label">
+                BEYOND THE STORY
             </p>
 
-            <div class="final-eyes-trigger"></div>
+            <div class="moral-divider"></div>
+
+            <blockquote>
+                “Sometimes, the greatest battle isn't between Heaven and Hell, but between the darkness within us and the light we choose to protect.”
+            </blockquote>
+
+            <p class="moral-caption">
+                A THOUGHT TO REMEMBER
+            </p>
+
+            <div class="moral-divider"></div>
 
         </section>
+
+
+        <!-- FINAL SUPERNATURAL REVEAL -->
+
+        <section class="final-eyes-trigger">
+
+            <div class="final-reveal-content">
+
+                <p>
+                    THE DARKNESS IS NEVER TRULY GONE.
+                </p>
+
+                <p>
+                    SOMETHING IS STILL WATCHING.
+                </p>
+
+            </div>
+
+        </section>
+
 
     </main>
 
 
     <!-- FOOTER -->
+
     <footer>
 
-        <p>THE MYSTERY TATTOO</p>
+        <div class="footer-content">
 
-        <p class="developer-credit">
-            DESIGNED &amp; DEVELOPED BY SABARISH P
-        </p>
+            <h2>THE MYSTERY TATTOO</h2>
+
+            <p class="footer-subtitle">
+                WEB NOVEL
+            </p>
+
+            <div class="footer-divider"></div>
+
+            <p class="footer-credit">
+                DESIGNED &amp; DEVELOPED BY
+            </p>
+
+            <p class="footer-author">
+                SABARISH P
+            </p>
+
+            <p class="footer-degree">
+                B.TECH IT
+            </p>
+
+            <div class="footer-divider"></div>
+
+            <p class="copyright">
+                © 2026 · AN ORIGINAL SUPERNATURAL HORROR STORY
+            </p>
+
+        </div>
 
     </footer>
 
+
+    <!-- JAVASCRIPT -->
 
     <script src="script.js"></script>
 
