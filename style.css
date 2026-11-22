@@ -1,0 +1,695 @@
+/* =========================================
+   THE MYSTERY TATTOO
+   CINEMATIC HORROR READING EXPERIENCE
+========================================= */
+
+:root {
+    --gold: #c9a45c;
+    --gold-light: #f0d69a;
+    --dark: #080808;
+    --dark-red: #260707;
+    --text: #e8e0d5;
+    --muted: #a49a8c;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 30px;
+}
+
+body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Crimson Pro', serif;
+    overflow-x: hidden;
+    transition: background 1.5s ease;
+}
+
+/* =========================================
+   GLOBAL ATMOSPHERE
+========================================= */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 35%,
+            rgba(0, 0, 0, 0.65) 100%
+        );
+}
+
+#snow {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 20;
+}
+
+.controls {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 100;
+    display: flex;
+    gap: 8px;
+}
+
+.controls button {
+    background: rgba(10, 10, 10, 0.85);
+    color: var(--gold-light);
+    border: 1px solid rgba(201, 164, 92, 0.45);
+    padding: 9px 13px;
+    border-radius: 3px;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+}
+
+.controls button:hover {
+    background: rgba(201, 164, 92, 0.15);
+}
+
+/* =========================================
+   READING PROGRESS
+========================================= */
+
+.progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    z-index: 200;
+    background: rgba(255,255,255,0.05);
+}
+
+#progressBar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(
+        90deg,
+        #72501d,
+        var(--gold-light)
+    );
+    box-shadow: 0 0 12px var(--gold);
+}
+
+/* =========================================
+   HERO SECTION
+========================================= */
+
+.hero {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    padding: 90px 20px 60px;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,0.65),
+            rgba(0,0,0,0.88)
+        ),
+        radial-gradient(
+            ellipse at center,
+            #38201b,
+            #100b0b 55%,
+            #050505
+        );
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            transparent,
+            rgba(0,0,0,0.75)
+        );
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    animation: heroReveal 2s ease forwards;
+}
+
+.eyebrow {
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 5px;
+    margin-bottom: 30px;
+}
+
+.hero h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: clamp(43px, 9vw, 100px);
+    line-height: 1.12;
+    letter-spacing: 5px;
+
+    color: #e8d6ad;
+
+    text-shadow:
+        0 0 20px rgba(201,164,92,0.2),
+        0 0 60px rgba(0,0,0,0.9);
+}
+
+.title-divider {
+    width: 100px;
+    height: 1px;
+    background: var(--gold);
+    margin: 30px auto;
+    box-shadow: 0 0 10px var(--gold);
+}
+
+.subtitle {
+    font-size: 23px;
+    color: #d3c5af;
+    letter-spacing: 2px;
+}
+
+.author {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    margin-top: 24px;
+}
+
+.enter-button {
+    display: inline-block;
+    margin-top: 55px;
+    padding: 16px 34px;
+
+    border: 1px solid var(--gold);
+    color: var(--gold-light);
+
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-decoration: none;
+
+    transition: 0.4s ease;
+}
+
+.enter-button:hover {
+    background: var(--gold);
+    color: #080808;
+    box-shadow: 0 0 30px rgba(201,164,92,0.3);
+}
+
+.scroll-hint {
+    margin-top: 65px;
+    font-family: 'Cinzel', serif;
+    color: #92816b;
+    font-size: 10px;
+    letter-spacing: 3px;
+    animation: gentleFloat 2s infinite ease-in-out;
+}
+
+/* =========================================
+   STORY LAYOUT
+========================================= */
+
+#reader {
+    position: relative;
+    z-index: 2;
+}
+
+.story-section {
+    position: relative;
+    max-width: 900px;
+    margin: auto;
+    padding: 130px 45px;
+    transition: background 2s ease;
+}
+
+.chapter-heading {
+    text-align: center;
+    margin-bottom: 75px;
+}
+
+.chapter-heading span {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 5px;
+}
+
+.chapter-heading h2 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(28px, 5vw, 45px);
+    font-weight: 500;
+    line-height: 1.4;
+    margin-top: 20px;
+    color: #e8d7b6;
+}
+
+.chapter-heading h3 {
+    font-size: 23px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--muted);
+    margin-top: 12px;
+}
+
+.chapter-heading::after {
+    content: "";
+    display: block;
+    width: 55px;
+    height: 1px;
+    background: var(--gold);
+    margin: 30px auto 0;
+}
+
+/* STORY TEXT */
+
+.story-text {
+    font-size: 21px;
+    line-height: 1.95;
+    color: #ded7cd;
+    letter-spacing: 0.15px;
+}
+
+.story-text p {
+    margin-bottom: 27px;
+}
+
+.story-text p:first-child::first-letter {
+    float: left;
+    font-family: 'Cinzel', serif;
+    font-size: 64px;
+    line-height: 0.9;
+    padding-right: 10px;
+    padding-top: 8px;
+    color: var(--gold-light);
+}
+
+.story-text em {
+    color: #d5bd91;
+}
+
+.story-text strong {
+    color: #f1d49b;
+    font-weight: 600;
+}
+
+/* Invisible scene markers */
+
+.scene-marker {
+    height: 1px;
+    width: 100%;
+    pointer-events: none;
+}
+
+/* =========================================
+   SCENE ATMOSPHERE MODES
+========================================= */
+
+body.mode-storm {
+    background: #080d14;
+}
+
+body.mode-storm .story-section {
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(30,45,65,0.2),
+            transparent 75%
+        );
+}
+
+body.mode-hell {
+    background: #170505;
+}
+
+body.mode-hell .story-section {
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(100,0,0,0.18),
+            transparent 75%
+        );
+}
+
+body.mode-heaven {
+    background: #17140e;
+}
+
+body.mode-heaven .story-section {
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(180,145,70,0.12),
+            transparent 75%
+        );
+}
+
+/* =========================================
+   FLASH EFFECT
+========================================= */
+
+#flash {
+    position: fixed;
+    inset: 0;
+    background: white;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 80;
+}
+
+#flash.active {
+    animation: lightningFlash 0.65s ease-out;
+}
+
+@keyframes lightningFlash {
+    0% { opacity: 0; }
+    10% { opacity: 0.9; }
+    18% { opacity: 0.05; }
+    30% { opacity: 0.75; }
+    45% { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+/* =========================================
+   SNAKE EFFECT
+========================================= */
+
+#snake {
+    position: fixed;
+    width: 160px;
+    height: 30px;
+    left: -200px;
+    top: 50%;
+    z-index: 90;
+    pointer-events: none;
+    opacity: 0;
+
+    background:
+        radial-gradient(
+            ellipse,
+            #526b27,
+            #17220b 65%,
+            transparent 72%
+        );
+
+    border-radius: 50%;
+}
+
+#snake.active {
+    animation: snakeCross 1.5s ease-in-out forwards;
+}
+
+@keyframes snakeCross {
+    0% {
+        left: -200px;
+        opacity: 0;
+        transform: rotate(8deg) scale(0.7);
+    }
+
+    15% {
+        opacity: 1;
+    }
+
+    50% {
+        transform: rotate(-8deg) scale(1);
+    }
+
+    85% {
+        opacity: 1;
+    }
+
+    100% {
+        left: 110%;
+        opacity: 0;
+        transform: rotate(10deg) scale(0.8);
+    }
+}
+
+/* =========================================
+   MORAL SECTION
+========================================= */
+
+.moral-section {
+    min-height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 25px;
+    text-align: center;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            #302313,
+            #100d09 65%,
+            #050505
+        );
+}
+
+.moral-content {
+    max-width: 850px;
+}
+
+.moral-label {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 5px;
+    color: var(--gold);
+    margin-bottom: 45px;
+}
+
+.moral-content blockquote {
+    font-family: 'Crimson Pro', serif;
+    font-size: clamp(25px, 4vw, 39px);
+    line-height: 1.7;
+    font-style: italic;
+    color: #ead5a8;
+
+    text-shadow:
+        0 0 25px rgba(201,164,92,0.2);
+}
+
+/* =========================================
+   ENDING
+========================================= */
+
+.ending-section {
+    min-height: 100vh;
+    min-height: 100svh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    background: #000;
+    padding: 30px;
+}
+
+.ending-text {
+    font-family: 'Cinzel', serif;
+    font-size: 35px;
+    letter-spacing: 12px;
+    color: #b99a65;
+}
+
+.ending-subtext {
+    margin-top: 25px;
+    color: #70665a;
+    font-size: 19px;
+    font-style: italic;
+}
+
+/* =========================================
+   FINAL RED EYES
+========================================= */
+
+#red-eyes {
+    position: fixed;
+    inset: 0;
+    z-index: 95;
+    pointer-events: none;
+    opacity: 0;
+
+    background:
+        radial-gradient(
+            ellipse at 43% 48%,
+            rgba(255,0,0,0.95) 0,
+            rgba(150,0,0,0.55) 5px,
+            transparent 17px
+        ),
+        radial-gradient(
+            ellipse at 57% 48%,
+            rgba(255,0,0,0.95) 0,
+            rgba(150,0,0,0.55) 5px,
+            transparent 17px
+        );
+}
+
+#red-eyes.active {
+    animation: eyesAppear 4s ease-in-out forwards;
+}
+
+@keyframes eyesAppear {
+    0% { opacity: 0; }
+    25% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer {
+    padding: 45px 20px;
+    text-align: center;
+    background: #050505;
+    border-top: 1px solid rgba(201,164,92,0.15);
+}
+
+footer > p:first-child {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    letter-spacing: 4px;
+    font-size: 14px;
+}
+
+.developer-credit {
+    margin-top: 18px;
+    color: #776e60;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes heroReveal {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes gentleFloat {
+    0%, 100% {
+        transform: translateY(0);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: translateY(8px);
+        opacity: 1;
+    }
+}
+
+/* =========================================
+   MOBILE RESPONSIVENESS
+========================================= */
+
+@media (max-width: 600px) {
+
+    .controls {
+        top: 10px;
+        right: 10px;
+        gap: 5px;
+    }
+
+    .controls button {
+        font-size: 8px;
+        padding: 8px;
+    }
+
+    .hero {
+        padding-top: 100px;
+    }
+
+    .hero h1 {
+        letter-spacing: 2px;
+    }
+
+    .eyebrow {
+        font-size: 9px;
+        letter-spacing: 3px;
+    }
+
+    .subtitle {
+        font-size: 19px;
+    }
+
+    .story-section {
+        padding: 90px 23px;
+    }
+
+    .chapter-heading {
+        margin-bottom: 50px;
+    }
+
+    .story-text {
+        font-size: 19px;
+        line-height: 1.85;
+    }
+
+    .story-text p:first-child::first-letter {
+        font-size: 53px;
+    }
+
+    .moral-section {
+        min-height: 65vh;
+    }
+
+    .ending-text {
+        font-size: 27px;
+        letter-spacing: 7px;
+    }
+}
+
+/* =========================================
+   REDUCED MOTION ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
