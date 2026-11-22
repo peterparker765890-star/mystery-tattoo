@@ -3,2066 +3,729 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#08090c">
-
-<title>The Mystery Tattoo | A Supernatural Horror Story</title>
-
-<meta name="description" content="The Mystery Tattoo — A Supernatural Christmas Horror Story by Sabarish P.">
-
+<meta name="theme-color" content="#080707">
+<meta name="description" content="The Mystery Tattoo — an original supernatural horror story by Sabarish P.">
+<title>THE MYSTERY TATTOO</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-    --bg: #08090c;
-    --panel: #111319;
-    --text: #e8e4dc;
-    --muted: #a5a19a;
-    --red: #a33a3e;
-    --gold: #c6a879;
-    --border: rgba(198,168,121,.2);
-    --display: 'Cinzel', serif;
-    --body: 'Literata', Georgia, serif;
-    --sans: 'Inter', sans-serif;
+  color-scheme: dark;
+  --ink: #080707;
+  --paper: #e9e1d9;
+  --muted: #938983;
+  --blood: #8e2028;
+  --line: #292020;
 }
-
-* {
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 85px;
-}
-
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: var(--ink); scroll-behavior: smooth; }
 body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    overflow-x: hidden;
+  background: var(--ink); color: var(--paper); overflow-x: hidden;
+  font-family: "Cormorant Garamond", Georgia, serif;
 }
-
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-    opacity: .12;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.2'/%3E%3C/svg%3E");
+/* Quiet snowfall: the only visual movement on the page. */
+.snow { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 5; }
+.flake {
+  position: absolute; top: -12px; width: 2px; height: 2px; border-radius: 50%;
+  background: rgba(235,235,235,.58); animation: fall linear infinite;
 }
-
-#snow {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 10;
+.flake:nth-child(1){left:4%;animation-duration:19s;animation-delay:-8s}
+.flake:nth-child(2){left:12%;animation-duration:15s;animation-delay:-3s}
+.flake:nth-child(3){left:20%;animation-duration:22s;animation-delay:-14s}
+.flake:nth-child(4){left:28%;animation-duration:17s;animation-delay:-6s}
+.flake:nth-child(5){left:36%;animation-duration:21s;animation-delay:-12s}
+.flake:nth-child(6){left:44%;animation-duration:16s;animation-delay:-4s}
+.flake:nth-child(7){left:52%;animation-duration:23s;animation-delay:-17s}
+.flake:nth-child(8){left:60%;animation-duration:18s;animation-delay:-9s}
+.flake:nth-child(9){left:68%;animation-duration:20s;animation-delay:-2s}
+.flake:nth-child(10){left:76%;animation-duration:16s;animation-delay:-11s}
+.flake:nth-child(11){left:84%;animation-duration:22s;animation-delay:-7s}
+.flake:nth-child(12){left:92%;animation-duration:18s;animation-delay:-13s}
+@keyframes fall { to { transform: translateY(110vh); } }
+.cover {
+  min-height: 100svh; position: relative; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  padding: 80px 24px; border-bottom: 1px solid var(--line);
 }
-
-/* NAVIGATION */
-
-.topbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 66px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 6%;
-    background: rgba(8,9,12,.88);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
-    z-index: 100;
+.studio {
+  font: 500 10px/1.5 "DM Sans", sans-serif; letter-spacing: .62em;
+  color: #b08b70; text-transform: uppercase; margin-bottom: 76px;
 }
-
-.brand {
-    font-family: var(--display);
-    font-size: 15px;
-    letter-spacing: 3px;
-    color: var(--gold);
+.cover-overline {
+  font: 500 10px/1.5 "DM Sans", sans-serif; letter-spacing: .48em;
+  color: #aaa09a; text-transform: uppercase; margin-bottom: 25px;
 }
-
-.controls {
-    display: flex;
-    gap: 10px;
+h1 {
+  max-width: 1100px; font: 800 clamp(43px, 9.3vw, 112px)/.98 "Cinzel", serif;
+  letter-spacing: -.045em; text-transform: uppercase; color: #eee8e1;
 }
-
-.control-btn {
-    border: 1px solid var(--border);
-    color: var(--text);
-    background: #15171d;
-    padding: 9px 14px;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 11px;
-    letter-spacing: 1px;
-    transition: .3s;
+h1 span { display: block; color: var(--blood); letter-spacing: .045em; }
+.tagline {
+  margin-top: 34px; color: #a69a91; font: italic 500 clamp(18px, 2.5vw, 25px)/1.5 "Cormorant Garamond", serif;
+  letter-spacing: .035em;
 }
-
-.control-btn:hover,
-.control-btn.active {
-    background: #332326;
-    border-color: var(--red);
+.cover-rule { width: 54px; height: 1px; background: var(--blood); margin: 43px auto 27px; }
+.byline {
+  color: #a69d96; font: 400 9px/1.8 "DM Sans", sans-serif;
+  letter-spacing: .34em; text-transform: uppercase;
 }
-
-/* HERO */
-
-.hero {
-    min-height: 100vh;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 120px 20px 90px;
-    background:
-        linear-gradient(to bottom,rgba(5,6,9,.45),rgba(5,6,9,.92)),
-        radial-gradient(ellipse at center,#35242a 0%,#15151a 42%,#08090c 100%);
+.cover-foot {
+  position: absolute; bottom: 34px; color: #68615d;
+  font: 400 9px/1.5 "DM Sans", sans-serif; letter-spacing: .42em;
 }
-
-.hero::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 180px;
-    background: linear-gradient(transparent,var(--bg));
+.manuscript { width: min(760px, calc(100% - 44px)); margin: 0 auto; padding: 112px 0 90px; }
+.chapter { margin: 0 0 145px; scroll-margin-top: 40px; }
+.chapter-kicker {
+  text-align: center; color: var(--blood); text-transform: uppercase;
+  font: 500 9px/1.6 "DM Sans", sans-serif; letter-spacing: .55em; margin-bottom: 20px;
 }
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 900px;
-    animation: heroReveal 2s ease both;
-}
-
-.eyebrow {
-    color: var(--gold);
-    font-size: 11px;
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    margin-bottom: 28px;
-}
-
-.hero h1 {
-    font-family: var(--display);
-    font-size: clamp(38px,8vw,88px);
-    font-weight: 500;
-    letter-spacing: 5px;
-    line-height: 1.2;
-    margin: 0;
-    text-shadow: 0 5px 35px rgba(0,0,0,.8);
-}
-
-.hero h2 {
-    font-family: var(--body);
-    font-size: clamp(16px,2vw,23px);
-    font-weight: 400;
-    color: #c3b9aa;
-    letter-spacing: 2px;
-    margin-top: 22px;
-}
-
-.hero-line {
-    width: 85px;
-    height: 1px;
-    background: var(--gold);
-    margin: 35px auto;
-}
-
-.hero-description {
-    color: var(--muted);
-    font-family: var(--body);
-    font-style: italic;
-    font-size: 16px;
-}
-
-.start-btn {
-    margin-top: 38px;
-    display: inline-block;
-    padding: 15px 34px;
-    border: 1px solid var(--gold);
-    color: var(--gold);
-    text-decoration: none;
-    font-size: 11px;
-    letter-spacing: 3px;
-    transition: .4s;
-}
-
-.start-btn:hover {
-    background: var(--gold);
-    color: #08090c;
-}
-
-/* STORY NAVIGATION */
-
-.chapter-nav {
-    max-width: 1050px;
-    margin: 0 auto;
-    padding: 35px 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
-    border-bottom: 1px solid var(--border);
-    position: relative;
-    z-index: 2;
-}
-
-.chapter-nav a {
-    color: var(--muted);
-    border: 1px solid var(--border);
-    padding: 9px 13px;
-    font-size: 10px;
-    text-decoration: none;
-    letter-spacing: 1px;
-    transition: .3s;
-}
-
-.chapter-nav a:hover {
-    color: var(--gold);
-    border-color: var(--gold);
-}
-
-/* STORY */
-
-.story {
-    position: relative;
-    z-index: 2;
-    max-width: 850px;
-    margin: auto;
-    padding: 30px 25px 100px;
-}
-
-.chapter {
-    padding: 100px 0;
-    border-bottom: 1px solid var(--border);
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 1s ease, transform 1s ease;
-}
-
-.chapter.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.chapter-label {
-    color: var(--red);
-    font-family: var(--display);
-    font-size: 12px;
-    letter-spacing: 5px;
-    text-align: center;
-    margin-bottom: 17px;
-}
-
 .chapter h2 {
-    text-align: center;
-    font-family: var(--display);
-    font-weight: 500;
-    font-size: clamp(25px,5vw,39px);
-    letter-spacing: 2px;
-    margin: 0 0 45px;
-    color: #e9dfcf;
+  text-align: center; color: #e9e1d9; text-transform: uppercase;
+  font: 600 clamp(23px, 4.2vw, 36px)/1.35 "Cinzel", serif; letter-spacing: .075em;
 }
-
-.story-text {
-    font-family: var(--body);
-    font-size: 17px;
-    line-height: 2.05;
-    color: #d1cec7;
-    white-space: pre-line;
+.rule { width: 43px; height: 1px; background: #713037; margin: 31px auto 48px; }
+.prose { color: #c9beb5; font: 400 clamp(19px, 2.2vw, 22px)/1.85 "Cormorant Garamond", Georgia, serif; }
+.prose p { margin: 0 0 20px; }
+.prose p.impact {
+  color: #d8c9c0; text-align: center; font: 600 14px/1.8 "Cinzel", serif;
+  letter-spacing: .17em; margin: 34px 0;
 }
-
-.story-text p {
-    margin: 0 0 25px;
+.prose p.name-beat {
+  color: #e1d7cf; text-align: center; font: 600 17px/1.6 "Cinzel", serif;
+  letter-spacing: .13em; margin: 22px 0;
 }
-
-.dialogue {
-    color: #e6cda9;
+.closing {
+  min-height: 78vh; background: #050505; border-top: 1px solid var(--line);
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center; padding: 90px 24px;
 }
-
-.impact {
-    display: block;
-    text-align: center;
-    font-family: var(--display);
-    font-size: 19px;
-    color: #c17b76;
-    letter-spacing: 3px;
-    margin: 35px 0;
+.closing-kicker {
+  color: var(--blood); font: 500 9px/1.5 "DM Sans", sans-serif;
+  letter-spacing: .65em; margin-bottom: 36px;
 }
-
-.scene-break {
-    text-align: center;
-    color: var(--red);
-    letter-spacing: 10px;
-    margin: 55px 0;
+.closing h2 {
+  color: #eee7df; font: 800 clamp(34px, 7vw, 76px)/1.18 "Cinzel", serif;
+  letter-spacing: .015em;
 }
-
-.moral {
-    margin-top: 80px;
-    padding: 55px 30px;
-    background: linear-gradient(145deg,#17171b,#0c0d11);
-    border: 1px solid var(--border);
-    text-align: center;
+.closing p {
+  max-width: 560px; margin-top: 31px; color: #a69a91;
+  font: italic 500 clamp(19px, 2.4vw, 23px)/1.7 "Cormorant Garamond", serif;
 }
-
-.moral h2 {
-    font-family: var(--display);
-    color: var(--gold);
-    letter-spacing: 4px;
-    font-size: 20px;
-    font-weight: 400;
+.closing-rule { width: 56px; height: 1px; background: var(--blood); margin: 43px 0 28px; }
+.credits {
+  color: #827871; font: 400 9px/2.5 "DM Sans", sans-serif;
+  letter-spacing: .35em; text-transform: uppercase;
 }
-
-.moral p {
-    font-family: var(--body);
-    font-size: 19px;
-    line-height: 2;
-    color: #d8d0c3;
-    font-style: italic;
-}
-
-/* FOOTER */
-
+.credits strong { color: #c0b3a8; font-weight: 500; }
 footer {
-    position: relative;
-    z-index: 2;
-    padding: 65px 20px 45px;
-    text-align: center;
-    background: #07080a;
-    border-top: 1px solid var(--border);
+  padding: 26px 15px 34px; background: #050505; border-top: 1px solid #191515;
+  text-align: center; color: #5f5752; font: 400 8px/1.8 "DM Sans", sans-serif;
+  letter-spacing: .36em; text-transform: uppercase;
 }
-
-.footer-title {
-    font-family: var(--display);
-    color: var(--gold);
-    letter-spacing: 5px;
-    font-size: 20px;
+@media (max-width: 600px) {
+  .studio { margin-bottom: 55px; letter-spacing: .42em; }
+  .cover-overline { letter-spacing: .3em; }
+  .cover-foot { letter-spacing: .25em; font-size: 8px; }
+  .manuscript { padding-top: 78px; }
+  .chapter { margin-bottom: 105px; }
+  .prose { line-height: 1.78; }
 }
-
-.footer-divider {
-    width: 55px;
-    height: 1px;
-    background: var(--red);
-    margin: 25px auto;
-}
-
-.credit-label {
-    font-size: 9px;
-    letter-spacing: 3px;
-    color: #817c75;
-    margin-top: 24px;
-}
-
-.credit-name {
-    font-family: var(--display);
-    letter-spacing: 2px;
-    font-size: 14px;
-    color: #e4d6bf;
-    margin-top: 8px;
-}
-
-.credit-sub {
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 2px;
-    margin-top: 5px;
-}
-
-.copyright {
-    color: #66636a;
-    font-size: 10px;
-    margin-top: 45px;
-    letter-spacing: 1px;
-}
-
-/* CINEMATIC EFFECTS */
-
-.flash {
-    position: fixed;
-    inset: 0;
-    background: #eee;
-    opacity: 0;
-    pointer-events: none;
-    z-index: 200;
-}
-
-.flash.trigger {
-    animation: flashEffect .65s ease-out;
-}
-
-@keyframes flashEffect {
-    0% {opacity:0}
-    8% {opacity:.85}
-    15% {opacity:0}
-    30% {opacity:.3}
-    40% {opacity:0}
-    100% {opacity:0}
-}
-
-@keyframes heroReveal {
-    from {opacity:0;transform:translateY(25px)}
-    to {opacity:1;transform:translateY(0)}
-}
-
-@media(max-width:600px) {
-    .topbar {
-        padding: 0 15px;
-    }
-
-    .brand {
-        font-size: 12px;
-        letter-spacing: 2px;
-    }
-
-    .control-btn {
-        padding: 8px;
-        font-size: 9px;
-    }
-
-    .story {
-        padding: 15px 20px 70px;
-    }
-
-    .chapter {
-        padding: 70px 0;
-    }
-
-    .story-text {
-        font-size: 16px;
-        line-height: 1.95;
-    }
-
-    .chapter-nav {
-        gap: 8px;
-    }
-}
-
-@media(prefers-reduced-motion:reduce) {
-    *,*::before,*::after {
-        scroll-behavior:auto!important;
-        animation-duration:.01ms!important;
-        transition-duration:.01ms!important;
-    }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .flake { display: none; animation: none; }
 }
 </style>
 </head>
-
 <body>
+<div class="snow" aria-hidden="true">
+  <i class="flake"></i><i class="flake"></i><i class="flake"></i><i class="flake"></i><i class="flake"></i><i class="flake"></i><i class="flake"></i><i class="flake"></i><i class="flake"></i><i class="flake"></i><i class="flake"></i><i class="flake"></i>
+</div>
 
-<canvas id="snow"></canvas>
-<div class="flash" id="flash"></div>
-
-<header class="topbar">
-    <div class="brand">THE HARBOUR</div>
-
-    <div class="controls">
-        <button class="control-btn" id="soundBtn">SOUND: OFF</button>
-        <button class="control-btn" id="snowBtn">SNOW: ON</button>
-    </div>
+<header class="cover">
+  <div class="studio">STUDIO X PRESENTS</div>
+  <div class="cover-overline">A SUPERNATURAL HORROR STORY</div>
+  <h1>THE MYSTERY<span>TATTOO</span></h1>
+  <p class="tagline">Some marks are never meant to be erased.</p>
+  <div class="cover-rule"></div>
+  <div class="byline">An Original Story by Sabarish P</div>
+  <div class="cover-foot">FRANCE · CHRISTMAS · FIVE FATES</div>
 </header>
 
-<section class="hero">
+<main class="manuscript">
 
-    <div class="hero-content">
-
-        <div class="eyebrow">THE HARBOUR PRESENTS</div>
-
-        <h1>THE MYSTERY<br>TATTOO</h1>
-
-        <h2>A Supernatural Horror Story</h2>
-
-        <div class="hero-line"></div>
-
-        <p class="hero-description">
-            Five friends. Five tattoos. One terrible curse.
-        </p>
-
-        <a href="#prologue" class="start-btn">ENTER THE STORY</a>
-
-    </div>
-
-</section>
-
-<nav class="chapter-nav">
-    <a href="#prologue">PROLOGUE</a>
-    <a href="#chapter1">CHAPTER 01</a>
-    <a href="#chapter2">CHAPTER 02</a>
-    <a href="#chapter3">CHAPTER 03</a>
-    <a href="#chapter4">CHAPTER 04</a>
-    <a href="#chapter5">CHAPTER 05</a>
-    <a href="#chapter6">CHAPTER 06</a>
-    <a href="#chapter7">CHAPTER 07</a>
-    <a href="#chapter8">CHAPTER 08</a>
-    <a href="#epilogue">EPILOGUE</a>
-</nav>
-
-<main class="story">
-
-<!-- PROLOGUE -->
-
-<section class="chapter" id="prologue">
-
-<div class="chapter-label">PROLOGUE</div>
-<h2>The Christmas Curse</h2>
-
-<div class="story-text">
-
-<p>Once upon a time, in France, December was considered one of the most beautiful months of the year.</p>
-
+    <section class="chapter" id="prologue">
+      <div class="chapter-kicker">THE BEGINNING</div>
+      <h2>The Christmas Curse</h2>
+      <div class="rule"></div>
+      <div class="prose">
+        <p>Once upon a time, in France, December was considered one of the most beautiful months of the year.</p>
 <p>As the first week of December arrived, the entire country began preparing for Christmas. Streets were decorated with colourful lights, enormous Christmas trees stood proudly in public squares, and festive exhibitions attracted thousands of visitors.</p>
-
 <p>The atmosphere was filled with happiness.</p>
-
 <p>Families gathered, children played, musicians performed, and people celebrated the approaching festival.</p>
-
 <p>But somewhere among the celebrations, something sinister was waiting.</p>
-
 <p>Something that would turn this beautiful Christmas into a nightmare.</p>
-
 <p>And it all began with five friends.</p>
-
-</div>
-</section>
-
-<!-- CHAPTER 1 -->
-
-<section class="chapter" id="chapter1">
-
-<div class="chapter-label">CHAPTER 01</div>
-<h2>The Magical Tattoo</h2>
-
-<div class="story-text">
-
-<p>James, Oliver, Hannah, Henry and William were five close friends who loved spending time together.</p>
-
+      </div>
+    </section>
+    <section class="chapter" id="chapter-1">
+      <div class="chapter-kicker">CHAPTER 1</div>
+      <h2>The Magical Tattoo</h2>
+      <div class="rule"></div>
+      <div class="prose">
+        <p>James, Oliver, Hannah, Henry and William were five close friends who loved spending time together.</p>
 <p>One evening, they were walking along a crowded celebration street, enjoying the Christmas decorations and exploring the exhibitions.</p>
-
 <p>As they continued walking, they noticed a small tattoo shop.</p>
-
 <p>An unusual-looking man stood at its entrance.</p>
-
 <p>He watched the five friends approaching and suddenly called out to them.</p>
-
-<p class="dialogue">"Hey, young people! Would you like to experience something extraordinary?"</p>
-
+<p>"Hey, young people! Would you like to experience something extraordinary?"</p>
 <p>The friends stopped.</p>
-
-<p class="dialogue">"What is it?" James asked.</p>
-
+<p>"What is it?" James asked.</p>
 <p>The man smiled mysteriously.</p>
-
-<p class="dialogue">"Magical tattoos! These aren't ordinary designs. Every tattoo has a special power. Come inside and experience the magic!"</p>
-
+<p>"Magical tattoos! These aren't ordinary designs. Every tattoo has a special power. Come inside and experience the magic!"</p>
 <p>The five friends exchanged curious glances.</p>
-
 <p>Although they found his words strange, their curiosity got the better of them.</p>
-
 <p>They entered the shop.</p>
-
 <p>Inside, the walls were covered with unusual tattoo designs. Some looked beautiful, while others appeared frightening.</p>
-
 <p>The man asked each of them to select a symbol.</p>
-
 <p>After looking through the designs, they finally made their choices.</p>
-
-<p>James selected a thunder symbol.</p>
-<p>Oliver selected a fire symbol.</p>
-<p>Hannah selected an arrow symbol.</p>
-<p>Henry selected a snake symbol.</p>
-<p>William selected a car symbol.</p>
-
+<p>James selected a thunder symbol ⚡.</p>
+<p>Oliver selected a fire symbol 🔥.</p>
+<p>Hannah selected an arrow symbol 🏹.</p>
+<p>Henry selected a snake symbol 🐍.</p>
+<p>William selected a car symbol 🚗.</p>
 <p>The tattoo artist carefully placed each symbol on their bodies.</p>
-
 <p>Once he had finished, the friends paid him and happily left the shop.</p>
-
 <p>They had no idea what they had just brought into their lives.</p>
-
 <p>Because the tattoo artist was no ordinary human.</p>
-
 <p>He was an evil witch sent by Satan to destroy Christmas.</p>
-
 <p>And the tattoos were not gifts.</p>
-
-<p class="impact">THEY WERE DEATH SENTENCES.</p>
-
-</div>
-</section>
-
-<!-- CHAPTER 2 -->
-
-<section class="chapter" id="chapter2">
-
-<div class="chapter-label">CHAPTER 02</div>
-<h2>The Snake</h2>
-
-<div class="story-text">
-
-<p>Several days passed.</p>
-
+<p>They were death sentences.</p>
+      </div>
+    </section>
+    <section class="chapter" id="chapter-2">
+      <div class="chapter-kicker">CHAPTER 2</div>
+      <h2>The Snake</h2>
+      <div class="rule"></div>
+      <div class="prose">
+        <p>Several days passed.</p>
 <p>The five friends continued enjoying the Christmas celebrations.</p>
-
 <p>One evening, they decided to organise a campfire party in a nearby forest.</p>
-
 <p>Unfortunately, the place they selected was a prohibited forest area.</p>
-
 <p>They ignored the warnings and entered anyway.</p>
-
 <p>After finding a suitable spot, they started their campfire.</p>
-
 <p>Music played, laughter filled the air, and everyone enjoyed themselves.</p>
-
 <p>Henry, who had consumed too much alcohol, began dancing uncontrollably.</p>
-
 <p>His friends laughed at his ridiculous movements.</p>
-
 <p>As the night progressed, everyone joined the dancing.</p>
-
 <p>After some time, Henry felt the need to use the washroom.</p>
-
 <p>He walked away from the campfire, moving deeper into the forest.</p>
-
 <p>Eventually, he stopped near a large tree.</p>
-
 <p>The surroundings were unusually silent.</p>
-
 <p>There was no sound except the occasional movement of leaves.</p>
-
 <p>Suddenly—</p>
-
-<p class="impact">A BAT FLEW TOWARDS HIS HEAD.</p>
-
-<p class="dialogue">"AHHH!"</p>
-
+<p>A bat flew directly towards his head.</p>
+<p>"AHHH!"</p>
 <p>Henry screamed and stumbled backwards.</p>
-
 <p>Terrified, he started running without looking where he was going.</p>
-
 <p>Within seconds, he lost his balance and fell into a snake pit.</p>
-
 <p>He immediately realised what had happened.</p>
-
 <p>Several snakes began crawling out of the pit.</p>
-
-<p class="dialogue">"HELP! SOMEBODY HELP ME!"</p>
-
+<p>"HELP! SOMEBODY HELP ME!"</p>
 <p>Henry desperately tried to escape.</p>
-
 <p>He struggled to climb out and finally managed to reach the surface.</p>
-
 <p>But his nightmare wasn't over.</p>
-
 <p>As he ran towards the campfire, a snake suddenly dropped from a tree and landed on his head.</p>
-
 <p>Before he could react, it bit him.</p>
-
-<p class="impact">"AAAHHH!"</p>
-
+<p>"AAAHHH!"</p>
 <p>Henry grabbed the snake and threw it away.</p>
-
 <p>He continued running, desperately searching for his friends.</p>
-
 <p>Meanwhile, the others had noticed his absence and started looking for him.</p>
-
-<p class="dialogue">"Henry! Where are you?"</p>
-
+<p>"Henry! Where are you?"</p>
 <p>They suddenly heard someone shouting.</p>
-
-<p class="dialogue">"HELP! PLEASE!"</p>
-
+<p>"HELP! PLEASE!"</p>
 <p>They rushed towards the voice.</p>
-
 <p>Henry appeared from the darkness, barely able to stand.</p>
-
-<p class="dialogue">"What happened to you?" James shouted.</p>
-
-<p class="dialogue">"SNAKES! THERE ARE SNAKES EVERYWHERE!"</p>
-
+<p>"What happened to you?" James shouted.</p>
+<p>"SNAKES! THERE ARE SNAKES EVERYWHERE!"</p>
 <p>His friends noticed the bite.</p>
-
 <p>Without wasting another second, they carried him to their car and rushed towards the nearest hospital.</p>
-
 <p>Oliver drove as fast as possible.</p>
-
 <p>Henry was struggling to breathe.</p>
-
-<p class="dialogue">"Stay with us, Henry! We're almost there!" William shouted.</p>
-
+<p>"Stay with us, Henry! We're almost there!" William shouted.</p>
 <p>Suddenly, Henry began coughing violently.</p>
-
 <p>He vomited blood.</p>
-
 <p>His body slowly became motionless.</p>
-
-<p class="dialogue">"Henry?"</p>
-
+<p>"Henry?"</p>
 <p>No response.</p>
-
-<p class="dialogue">"Henry! Wake up!"</p>
-
+<p>"Henry! Wake up!"</p>
 <p>But it was too late.</p>
-
 <p>Henry was dead.</p>
-
 <p>The car fell silent.</p>
-
 <p>James couldn't believe what had happened.</p>
-
 <p>Oliver stopped the car, and everyone broke down in tears.</p>
-
 <p>Their friend was gone.</p>
-
 <p>And none of them understood why.</p>
-
-</div>
-</section>
-
-<!-- CHAPTER 3 -->
-
-<section class="chapter" id="chapter3">
-
-<div class="chapter-label">CHAPTER 03</div>
-<h2>The Car</h2>
-
-<div class="story-text">
-
-<p>Days passed.</p>
-
+      </div>
+    </section>
+    <section class="chapter" id="chapter-3">
+      <div class="chapter-kicker">CHAPTER 3</div>
+      <h2>The Car</h2>
+      <div class="rule"></div>
+      <div class="prose">
+        <p>Days passed.</p>
 <p>The four remaining friends slowly tried to recover from Henry's death.</p>
-
 <p>But William was particularly affected.</p>
-
 <p>One afternoon, the four friends were spending time at a park.</p>
-
 <p>William had consumed alcohol and was blaming himself for everything that had happened.</p>
-
-<p class="dialogue">"If I hadn't taken the car into that forest, Henry would still be alive," he muttered.</p>
-
+<p>"If I hadn't taken the car into that forest, Henry would still be alive," he muttered.</p>
 <p>James tried to comfort him.</p>
-
-<p class="dialogue">"William, stop blaming yourself. None of us knew what would happen."</p>
-
+<p>"William, stop blaming yourself. None of us knew what would happen."</p>
 <p>But William refused to listen.</p>
-
-<p class="dialogue">"I took everyone there! It was my fault!"</p>
-
+<p>"I took everyone there! It was my fault!"</p>
 <p>He became increasingly frustrated and started walking away.</p>
-
 <p>Oliver followed him.</p>
-
-<p class="dialogue">"William! Wait! Where are you going?"</p>
-
-<p class="dialogue">"JUST LEAVE ME ALONE!"</p>
-
+<p>"William! Wait! Where are you going?"</p>
+<p>"JUST LEAVE ME ALONE!"</p>
 <p>William continued walking until he reached a nearby highway.</p>
-
 <p>His friends followed him, desperately trying to bring him back.</p>
-
-<p class="dialogue">"William! Move away from the road!"</p>
-
+<p>"William! Move away from the road!"</p>
 <p>He ignored their warnings.</p>
-
-<p class="dialogue">"GET BACK!"</p>
-
+<p>"GET BACK!"</p>
 <p>But William had completely lost control of himself.</p>
-
 <p>He stepped directly into the middle of the highway.</p>
-
 <p>Suddenly—</p>
-
-<p class="impact">A CAR APPROACHED AT TREMENDOUS SPEED.</p>
-
-<p class="dialogue">"WILLIAM! MOVE!"</p>
-
+<p>A car approached at tremendous speed.</p>
+<p>"WILLIAM! MOVE!"</p>
 <p class="impact">CRAAAAASH!</p>
-
 <p>The vehicle struck him violently.</p>
-
 <p>His body was thrown onto the road.</p>
-
 <p>Everyone froze.</p>
-
 <p>For a moment, nobody could speak.</p>
-
 <p>Then they rushed towards him.</p>
-
-<p class="dialogue">"William!"</p>
-
+<p>"William!"</p>
 <p>James knelt beside his body.</p>
-
 <p>Oliver stood motionless, unable to process what he had just witnessed.</p>
-
 <p>William was dead.</p>
-
 <p>Again, their group had lost another friend.</p>
-
 <p>But this time, James noticed something unusual.</p>
-
 <p>He looked at the car symbol tattooed on William's body.</p>
-
 <p>Suddenly, a memory flashed through his mind.</p>
-
-<p>Henry.</p>
-
+<p class="name-beat">Henry.</p>
 <p>The snake tattoo.</p>
-
 <p>The snakebite.</p>
-
-<p>William.</p>
-
+<p class="name-beat">William.</p>
 <p>The car tattoo.</p>
-
 <p>The accident.</p>
-
 <p>A terrifying thought entered his mind.</p>
-
 <p>Could these deaths be connected?</p>
-
 <p>He wanted to tell the others, but he couldn't convince himself that such a thing was possible.</p>
-
 <p>Meanwhile, Hannah was deeply disturbed by the accident.</p>
-
 <p>She couldn't stop thinking about the horrifying scene.</p>
-
 <p>And James began observing everything more carefully.</p>
-
-<p class="impact">SOMETHING WAS TERRIBLY WRONG.</p>
-
-</div>
-</section>
-
-<!-- CHAPTER 4 -->
-
-<section class="chapter" id="chapter4">
-
-<div class="chapter-label">CHAPTER 04</div>
-<h2>The Arrow</h2>
-
-<div class="story-text">
-
-<p>Oliver noticed that Hannah had become increasingly depressed after William's death.</p>
-
+<p>Something was terribly wrong.</p>
+      </div>
+    </section>
+    <section class="chapter" id="chapter-4">
+      <div class="chapter-kicker">CHAPTER 4</div>
+      <h2>The Arrow</h2>
+      <div class="rule"></div>
+      <div class="prose">
+        <p>Oliver noticed that Hannah had become increasingly depressed after William's death.</p>
 <p>She had always loved sports, particularly archery.</p>
-
 <p>Hoping to distract her from the tragedy, Oliver decided to take her to an archery centre.</p>
-
-<p class="dialogue">"Come on, Hannah. Let's do something different today."</p>
-
-<p class="dialogue">"I'm not interested, Oliver."</p>
-
-<p class="dialogue">"Just give it a try. You might feel better."</p>
-
+<p>"Come on, Hannah. Let's do something different today."</p>
+<p>"I'm not interested, Oliver."</p>
+<p>"Just give it a try. You might feel better."</p>
 <p>After some hesitation, Hannah agreed.</p>
-
 <p>At the archery centre, Oliver tried several ridiculous tricks to make her laugh.</p>
-
 <p>He deliberately exaggerated his movements and pretended to be a professional archer.</p>
-
 <p>Hannah finally burst into laughter.</p>
-
 <p>For the first time in days, she looked happy.</p>
-
-<p class="dialogue">"You're absolutely terrible at this!" she laughed.</p>
-
-<p class="dialogue">"Excuse me! I'm a professional," Oliver replied proudly.</p>
-
+<p>"You're absolutely terrible at this!" she laughed.</p>
+<p>"Excuse me! I'm a professional," Oliver replied proudly.</p>
 <p>They continued enjoying themselves.</p>
-
 <p>After some time, Oliver handed her a bow.</p>
-
-<p class="dialogue">"Now, I want to see your aim."</p>
-
+<p>"Now, I want to see your aim."</p>
 <p>Hannah picked up the bow, positioned herself and carefully aimed at the target.</p>
-
 <p>She released the arrow.</p>
-
 <p class="impact">THWACK!</p>
-
 <p>It landed directly in the centre.</p>
-
 <p>Oliver stared at the target in disbelief.</p>
-
-<p class="dialogue">"WHAT? How did you do that?"</p>
-
+<p>"WHAT? How did you do that?"</p>
 <p>Hannah smiled.</p>
-
-<p class="dialogue">"Practice."</p>
-
+<p>"Practice."</p>
 <p>Everything seemed normal again.</p>
-
 <p>But suddenly—</p>
-
 <p class="impact">THWACK!</p>
-
 <p>Another arrow came flying from behind them.</p>
-
 <p>It struck Hannah.</p>
-
 <p>Oliver turned around in horror.</p>
-
-<p class="dialogue">"HANNAH!"</p>
-
+<p>"HANNAH!"</p>
 <p>The arrow had been accidentally released by another person practising nearby.</p>
-
 <p>The man immediately dropped his bow and rushed towards them.</p>
-
-<p class="dialogue">"Oh my God! I'm sorry! I didn't mean to!"</p>
-
+<p>"Oh my God! I'm sorry! I didn't mean to!"</p>
 <p>But Oliver wasn't listening.</p>
-
 <p>He rushed towards Hannah and held her in his arms.</p>
-
-<p class="dialogue">"Hannah! Please! Open your eyes!"</p>
-
+<p>"Hannah! Please! Open your eyes!"</p>
 <p>She was critically injured.</p>
-
 <p>Despite the desperate attempts to help her, Hannah died.</p>
-
 <p>Oliver broke down.</p>
-
 <p>Another friend was gone.</p>
-
 <p>The police arrived shortly afterwards and arrested the person responsible for the accidental shooting.</p>
-
 <p>But James, who had witnessed the incident, noticed something familiar.</p>
-
 <p>The arrow tattoo.</p>
-
 <p>He remembered the snake.</p>
-
 <p>He remembered the car.</p>
-
 <p>And now, the arrow.</p>
-
 <p>Three deaths.</p>
-
 <p>Three tattoos.</p>
-
 <p>Three matching symbols.</p>
-
-<p class="impact">THE TRUTH WAS BECOMING IMPOSSIBLE TO IGNORE.</p>
-
-</div>
-</section>
-
-<!-- CHAPTER 5 -->
-
-<section class="chapter" id="chapter5">
-
-<div class="chapter-label">CHAPTER 05</div>
-<h2>The Revelation</h2>
-
-<div class="story-text">
-
-<p>James could no longer keep his thoughts to himself.</p>
-
+<p>The truth was becoming impossible to ignore.</p>
+      </div>
+    </section>
+    <section class="chapter" id="chapter-5">
+      <div class="chapter-kicker">CHAPTER 5</div>
+      <h2>The Revelation</h2>
+      <div class="rule"></div>
+      <div class="prose">
+        <p>James could no longer keep his thoughts to himself.</p>
 <p>He approached Oliver.</p>
-
-<p class="dialogue">"Oliver, I need to tell you something."</p>
-
-<p class="dialogue">"What?"</p>
-
-<p class="dialogue">"I think all these deaths are connected."</p>
-
+<p>"Oliver, I need to tell you something."</p>
+<p>"What?"</p>
+<p>"I think all these deaths are connected."</p>
 <p>Oliver looked confused.</p>
-
-<p class="dialogue">"What are you talking about?"</p>
-
+<p>"What are you talking about?"</p>
 <p>James pointed towards the tattoo on his own arm.</p>
-
-<p class="dialogue">"Remember the tattoo shop we visited during the Christmas celebrations?"</p>
-
+<p>"Remember the tattoo shop we visited during the Christmas celebrations?"</p>
 <p>Oliver nodded.</p>
-
-<p class="dialogue">"Yes. What about it?"</p>
-
-<p class="dialogue">"Henry had a snake tattoo. He died from a snakebite."</p>
-
+<p>"Yes. What about it?"</p>
+<p>"Henry had a snake tattoo. He died from a snakebite."</p>
 <p>James continued.</p>
-
-<p class="dialogue">"William had a car tattoo. He was killed in a car accident."</p>
-
+<p>"William had a car tattoo. He was killed in a car accident."</p>
 <p>He paused.</p>
-
-<p class="dialogue">"And Hannah had an arrow tattoo. She died because of an arrow."</p>
-
+<p>"And Hannah had an arrow tattoo. She died because of an arrow."</p>
 <p>Oliver stared at him.</p>
-
 <p>James lowered his voice.</p>
-
-<p class="dialogue">"Don't you understand? These aren't coincidences. Our tattoos are connected to the ways we're dying!"</p>
-
+<p>"Don't you understand? These aren't coincidences. Our tattoos are connected to the ways we're dying!"</p>
 <p>Oliver looked at his own fire tattoo.</p>
-
 <p>His face turned pale.</p>
-
-<p class="dialogue">"No... No, that can't be true."</p>
-
+<p>"No... No, that can't be true."</p>
 <p>James looked at him.</p>
-
-<p class="dialogue">"I'm afraid it is."</p>
-
+<p>"I'm afraid it is."</p>
 <p>Oliver began trembling.</p>
-
-<p class="dialogue">"What are we going to do? James, how do we stop this?"</p>
-
-<p class="dialogue">"I don't know. But we need to find that tattoo artist."</p>
-
+<p>"What are we going to do? James, how do we stop this?"</p>
+<p>"I don't know. But we need to find that tattoo artist."</p>
 <p>They immediately decided to return to the shop.</p>
-
 <p>Perhaps the man could explain everything.</p>
-
 <p>Perhaps he could even remove the tattoos.</p>
-
 <p>But when they reached the street where the shop had once stood, they stopped in disbelief.</p>
-
 <p>The shop was gone.</p>
-
 <p>There was no signboard.</p>
-
 <p>No entrance.</p>
-
 <p>No tattoo equipment.</p>
-
 <p>Nothing.</p>
-
 <p>Only an empty, dark street remained.</p>
-
 <p>Oliver looked around desperately.</p>
-
-<p class="dialogue">"This is impossible! We came here just a few weeks ago!"</p>
-
+<p>"This is impossible! We came here just a few weeks ago!"</p>
 <p>James examined the surroundings.</p>
-
-<p class="dialogue">"There must be something..."</p>
-
+<p>"There must be something..."</p>
 <p>But there was no evidence that the shop had ever existed.</p>
-
 <p>The mysterious tattoo artist had disappeared.</p>
-
 <p>Oliver was terrified.</p>
-
 <p>James was determined.</p>
-
 <p>But neither of them realised that the final two tattoos were waiting to fulfil their purpose.</p>
-
-</div>
-</section>
-
-<!-- CHAPTER 6 -->
-
-<section class="chapter" id="chapter6">
-
-<div class="chapter-label">CHAPTER 06</div>
-<h2>The Fire</h2>
-
-<div class="story-text">
-
-<p>As evening approached, James and Oliver decided to get something to eat.</p>
-
+      </div>
+    </section>
+    <section class="chapter" id="chapter-6">
+      <div class="chapter-kicker">CHAPTER 6</div>
+      <h2>The Fire</h2>
+      <div class="rule"></div>
+      <div class="prose">
+        <p>As evening approached, James and Oliver decided to get something to eat.</p>
 <p>They entered a nearby hotel.</p>
-
 <p>But Oliver refused to sit near the cooking area.</p>
-
 <p>He had become terrified of fire.</p>
-
-<p class="dialogue">"Oliver, you need to eat something," James said.</p>
-
-<p class="dialogue">"I can't."</p>
-
-<p class="dialogue">"You're going to make yourself sick."</p>
-
-<p class="dialogue">"I said I can't, James! Don't you understand?"</p>
-
+<p>"Oliver, you need to eat something," James said.</p>
+<p>"I can't."</p>
+<p>"You're going to make yourself sick."</p>
+<p>"I said I can't, James! Don't you understand?"</p>
 <p>James realised that he couldn't convince him.</p>
-
 <p>So he suggested another place.</p>
-
-<p class="dialogue">"Fine. Let's go somewhere peaceful."</p>
-
+<p>"Fine. Let's go somewhere peaceful."</p>
 <p>He took Oliver to a river near a bridge.</p>
-
 <p>The surroundings were beautiful, and the cool breeze helped Oliver relax.</p>
-
 <p>For the first time that evening, he seemed comfortable.</p>
-
 <p>There was no fire nearby.</p>
-
 <p>No flames.</p>
-
 <p>Nothing to remind him of his tattoo.</p>
-
 <p>They sat beside the river.</p>
-
 <p>After some time, James checked his watch.</p>
-
-<p class="dialogue">"I'm hungry. I'm going to find something to eat."</p>
-
+<p>"I'm hungry. I'm going to find something to eat."</p>
 <p>Oliver nodded.</p>
-
-<p class="dialogue">"Okay. I'll stay here."</p>
-
+<p>"Okay. I'll stay here."</p>
 <p>James walked away towards a nearby hotel.</p>
-
 <p>Oliver remained beside the river, enjoying the peaceful surroundings.</p>
-
 <p>Meanwhile, people were celebrating Christmas along the riverside road.</p>
-
 <p>A group of street performers was entertaining the crowd with a fire performance.</p>
-
 <p>Suddenly—</p>
-
-<p class="impact">A LOUD CRASH ECHOED THROUGH THE AREA.</p>
-
+<p>A loud crash echoed through the area.</p>
 <p>A petroleum tanker had lost control.</p>
-
 <p>It smashed into the bridge barrier and plunged downwards.</p>
-
 <p>The container was badly damaged.</p>
-
 <p>Petroleum began spilling out, spreading rapidly across the road and towards the riverside.</p>
-
 <p>People screamed.</p>
-
-<p class="dialogue">"RUN!"</p>
-
+<p>"RUN!"</p>
 <p>Everyone rushed away from the accident.</p>
-
 <p>The street performers panicked.</p>
-
 <p>One of them accidentally dropped a burning fire rope.</p>
-
 <p>It landed directly in the spilled petroleum.</p>
-
 <p class="impact">WHOOSH!</p>
-
 <p>Flames erupted instantly.</p>
-
 <p>Fire spread rapidly across the ground.</p>
-
 <p>Oliver turned around.</p>
-
 <p>His eyes widened.</p>
-
 <p>A massive wall of flames was approaching him.</p>
-
 <p>He tried to run.</p>
-
 <p>But the fire was faster.</p>
-
 <p>The flames reached him and engulfed his body.</p>
-
-<p class="dialogue">"HELP! SOMEONE HELP ME!"</p>
-
+<p>"HELP! SOMEONE HELP ME!"</p>
 <p>Desperate to escape, Oliver jumped into the river.</p>
-
 <p>But the petroleum had already spread across the water.</p>
-
 <p>The river itself was burning.</p>
-
 <p>The flames surrounded him.</p>
-
 <p>There was no escape.</p>
-
 <p>Oliver disappeared beneath the burning water.</p>
-
 <p>By the time James returned, the entire area was filled with chaos.</p>
-
 <p>He heard people screaming and rushed towards the river.</p>
-
 <p>Then he saw it.</p>
-
-<p>Oliver.</p>
-
+<p class="name-beat">Oliver.</p>
 <p>His friend was dead.</p>
-
 <p>James stood motionless.</p>
-
 <p>All his remaining hope disappeared.</p>
-
 <p>He looked at Oliver's fire tattoo.</p>
-
 <p>The final piece of the puzzle was complete.</p>
-
-<p>Henry.</p>
-<p>William.</p>
-<p>Hannah.</p>
-<p>Oliver.</p>
-
+<p class="name-beat">Henry.</p>
+<p class="name-beat">William.</p>
+<p class="name-beat">Hannah.</p>
+<p class="name-beat">Oliver.</p>
 <p>Every tattoo had fulfilled its purpose.</p>
-
 <p>Only one remained.</p>
-
 <p>James looked down at his own arm.</p>
-
-<p class="impact">THE THUNDER SYMBOL.</p>
-
+<p>The thunder symbol.</p>
 <p>He was next.</p>
-
-</div>
-</section>
-
-<!-- CHAPTER 7 -->
-
-<section class="chapter" id="chapter7">
-
-<div class="chapter-label">CHAPTER 07</div>
-<h2>The Final Christmas</h2>
-
-<div class="story-text">
-
-<p>James ran.</p>
-
+      </div>
+    </section>
+    <section class="chapter" id="chapter-7">
+      <div class="chapter-kicker">CHAPTER 7</div>
+      <h2>The Final Christmas</h2>
+      <div class="rule"></div>
+      <div class="prose">
+        <p>James ran.</p>
 <p>He didn't know where he was going.</p>
-
 <p>He didn't know how he would die.</p>
-
 <p>But he knew that he couldn't allow the tattoo to fulfil its purpose.</p>
-
 <p>Outside, the weather had changed dramatically.</p>
-
 <p>Dark clouds covered the sky.</p>
-
 <p>Thunderstorms began forming.</p>
-
 <p>Lightning flashed across the horizon.</p>
-
 <p>James looked upwards.</p>
-
 <p>His heart raced.</p>
-
-<p class="dialogue">"NO! PLEASE! NOT ME!"</p>
-
+<p>"NO! PLEASE! NOT ME!"</p>
 <p>He continued running.</p>
-
 <p>Suddenly, he noticed a church nearby.</p>
-
 <p>Without thinking twice, he rushed inside.</p>
-
 <p>The church was filled with people preparing for the Christmas celebrations.</p>
-
 <p>Some were singing hymns.</p>
-
 <p>Others were praying.</p>
-
 <p>James entered and collapsed near the entrance.</p>
-
 <p>For a moment, he felt safe.</p>
-
 <p>He believed that the thunder couldn't reach him inside the church.</p>
-
 <p>Outside, the storm became increasingly violent.</p>
-
 <p>The church bells rang.</p>
-
 <p>The people continued praising Jesus.</p>
-
 <p>Slowly, the Christmas atmosphere returned.</p>
-
 <p>But their peace was about to be destroyed.</p>
-
 <p>Something dark appeared above the church.</p>
-
 <p>A strange black mist began spreading across the ceiling.</p>
-
 <p>It looked like a floating blanket of darkness.</p>
-
 <p>Two glowing red eyes emerged from within it.</p>
-
 <p>James looked up.</p>
-
 <p>His blood ran cold.</p>
-
 <p>The witch had arrived.</p>
-
 <p>He had finally found his last victim.</p>
-
 <p>The dark figure descended towards the centre of the church.</p>
-
 <p>The people stopped singing.</p>
-
 <p>Everyone stared at the mysterious creature.</p>
-
 <p>The witch opened his mouth.</p>
-
 <p>And with a terrifying voice, he shouted:</p>
-
-<p class="impact">"BLOODY CHRISTMAS!"</p>
-
+<p>"BLOODY CHRISTMAS!"</p>
 <p>He burst into evil laughter.</p>
-
 <p>The people screamed and began running towards the exits.</p>
-
 <p>James tried to escape.</p>
-
 <p>But before he could move, the witch extended his hand.</p>
-
 <p>A powerful invisible force pulled James backwards.</p>
-
 <p>He was lifted into the air and thrown violently against a wall.</p>
-
-<p class="impact">CRASH!</p>
-
+<p>CRASH!</p>
 <p>Pain spread through his body.</p>
-
 <p>Outside, lightning struck the ground.</p>
-
 <p>The church began shaking.</p>
-
 <p>Small pieces of the ceiling fell.</p>
-
 <p>The witch slowly approached James.</p>
-
 <p>He leaned towards his ear and whispered:</p>
-
-<p class="dialogue">"This is your last Christmas."</p>
-
+<p>"This is your last Christmas."</p>
 <p>James struggled to stand.</p>
-
 <p>He looked at the witch with anger and fear.</p>
-
 <p>Then something caught his attention.</p>
-
 <p>The cross necklace around his neck.</p>
-
 <p>With the little strength he had left, James pulled it from his chest.</p>
-
 <p>The witch approached him again.</p>
-
 <p>James suddenly raised the cross and pressed it against the witch's head.</p>
-
 <p>He began desperately praying.</p>
-
 <p>For a brief moment, the witch screamed and flew backwards.</p>
-
 <p>His body crashed onto the floor.</p>
-
 <p>But the creature wasn't destroyed.</p>
-
 <p>Instead, it became furious.</p>
-
 <p>Its eyes glowed brighter.</p>
-
 <p>The witch slowly rose and began moving towards James.</p>
-
 <p>James backed away.</p>
-
 <p>He had no strength left.</p>
-
 <p>His voice trembled.</p>
-
-<p class="dialogue">"Jesus... Please save me!"</p>
-
+<p>"Jesus... Please save me!"</p>
 <p>Suddenly—</p>
-
-<p class="impact">A BRILLIANT WHITE LIGHT FILLED THE CHURCH.</p>
-
+<p>A brilliant white light filled the church.</p>
 <p>A mysterious white smoke emerged from the light.</p>
-
 <p>The witch stopped moving.</p>
-
 <p>Everyone who remained inside turned towards the glowing figure.</p>
-
 <p>Two enormous white wings appeared.</p>
-
 <p>An angel had arrived.</p>
-
 <p>An angel sent by the Lord.</p>
-
-</div>
-</section>
-
-<!-- CHAPTER 8 -->
-
-<section class="chapter" id="chapter8">
-
-<div class="chapter-label">CHAPTER 08</div>
-<h2>The Battle Between Heaven and Hell</h2>
-
-<div class="story-text">
-
-<p>The angel stood between James and the witch.</p>
-
+      </div>
+    </section>
+    <section class="chapter" id="chapter-8">
+      <div class="chapter-kicker">CHAPTER 8</div>
+      <h2>The Battle Between Heaven and Hell</h2>
+      <div class="rule"></div>
+      <div class="prose">
+        <p>The angel stood between James and the witch.</p>
 <p>Its presence filled the church with an extraordinary brightness.</p>
-
 <p>The witch stepped backwards.</p>
-
-<p class="dialogue">"YOU!"</p>
-
+<p>"YOU!"</p>
 <p>The angel remained silent.</p>
-
 <p>The witch roared and launched himself towards the heavenly figure.</p>
-
 <p>A terrifying battle began.</p>
-
 <p>Dark energy collided with brilliant white light.</p>
-
 <p>The walls trembled.</p>
-
 <p>The windows shattered.</p>
-
 <p>The witch attempted to attack the angel repeatedly.</p>
-
 <p>But every time he approached, the angel seemed to disappear.</p>
-
 <p>The witch became confused.</p>
-
-<p class="dialogue">"WHERE ARE YOU?"</p>
-
+<p>"WHERE ARE YOU?"</p>
 <p>Suddenly, the angel appeared behind him.</p>
-
 <p>Before the witch could react, a powerful force trapped his entire body.</p>
-
 <p>He struggled desperately.</p>
-
-<p class="dialogue">"LET ME GO!"</p>
-
+<p>"LET ME GO!"</p>
 <p>But the angel raised both hands.</p>
-
 <p>A bright light surrounded the witch.</p>
-
 <p>The angel began chanting a powerful heavenly spell.</p>
-
 <p>The witch screamed.</p>
-
 <p>His dark body started burning.</p>
-
-<p class="dialogue">"No! NO! THIS CANNOT BE HAPPENING!"</p>
-
+<p>"No! NO! THIS CANNOT BE HAPPENING!"</p>
 <p>The flames grew brighter.</p>
-
 <p>His body slowly disintegrated.</p>
-
 <p>Within moments, the evil witch turned into ashes.</p>
-
 <p>A powerful wind swept through the church.</p>
-
 <p>The ashes scattered and disappeared.</p>
-
 <p>Silence returned.</p>
-
 <p>The angel turned towards James.</p>
-
 <p>For the first time, its expression softened.</p>
-
 <p>It smiled.</p>
-
 <p>James slowly stood up.</p>
-
 <p>He looked at the heavenly figure with tears in his eyes.</p>
-
 <p>Everything was finally over.</p>
-
 <p>The angel gradually disappeared into the white light.</p>
-
 <p>James looked down at his arm.</p>
-
 <p>The thunder tattoo was gone.</p>
-
 <p>Completely gone.</p>
-
 <p>He was free.</p>
-
 <p>Outside, the storm began to weaken.</p>
-
 <p>The lightning stopped.</p>
-
 <p>The thunder faded.</p>
-
 <p>Peace slowly returned to the city.</p>
-
 <p>But the church had suffered enormous damage.</p>
-
 <p>Its walls were collapsing.</p>
-
 <p>James hurried outside.</p>
-
 <p>Moments later—</p>
-
 <p class="impact">CRAAAAASH!</p>
-
 <p>The church collapsed behind him.</p>
-
 <p>James stood outside, exhausted but alive.</p>
-
 <p>He looked towards the sky.</p>
-
 <p>It was finally peaceful.</p>
-
 <p>Christmas had been saved.</p>
-
-</div>
-</section>
-
-<!-- EPILOGUE -->
-
-<section class="chapter" id="epilogue">
-
-<div class="chapter-label">EPILOGUE</div>
-<h2>One Year Later...</h2>
-
-<div class="story-text">
-
-<p>One year had passed since the terrifying events in France.</p>
-
+      </div>
+    </section>
+    <section class="chapter" id="epilogue">
+      <div class="chapter-kicker">THE AFTERMATH</div>
+      <h2>One Year Later...</h2>
+      <div class="rule"></div>
+      <div class="prose">
+        <p>One year had passed since the terrifying events in France.</p>
 <p>James was still alive.</p>
-
 <p>However, he could never forget what had happened.</p>
-
 <p>He had lost four of his closest friends.</p>
-
-<p>Henry.</p>
-
-<p>William.</p>
-
-<p>Hannah.</p>
-
-<p>Oliver.</p>
-
+<p class="name-beat">Henry.</p>
+<p class="name-beat">William.</p>
+<p class="name-beat">Hannah.</p>
+<p class="name-beat">Oliver.</p>
 <p>Their memories remained with him.</p>
-
 <p>He slowly tried to rebuild his life, accepting that some losses could never be recovered.</p>
-
 <p>Christmas had returned.</p>
-
 <p>The world was celebrating once again.</p>
-
 <p>But the darkness had not disappeared completely.</p>
-
 <p>Far away, in Finland, the first week of December had begun.</p>
-
 <p>Snow covered the streets.</p>
-
 <p>Christmas lights illuminated the buildings.</p>
-
 <p>Families were preparing for another beautiful Christmas.</p>
-
 <p>Among the celebrations, a young boy was walking along a crowded street.</p>
-
 <p>He suddenly noticed a small tattoo shop.</p>
-
 <p>An unusual-looking man stood at its entrance.</p>
-
 <p>The boy stopped.</p>
-
 <p>The man smiled.</p>
-
-<p class="dialogue">"Hey, young boy!"</p>
-
+<p>"Hey, young boy!"</p>
 <p>The boy turned towards him.</p>
-
-<p class="dialogue">"Would you like to experience something magical?"</p>
-
+<p>"Would you like to experience something magical?"</p>
 <p>The boy looked curious.</p>
-
 <p>The man slowly opened the shop door.</p>
-
 <p>Inside, strange tattoo designs covered the walls.</p>
-
 <p>The man extended his hand.</p>
-
-<p class="dialogue">"Come inside..."</p>
-
+<p>"Come inside..."</p>
 <p>He smiled wickedly.</p>
-
-<p class="dialogue">"Experience the magical tattoo."</p>
-
+<p>"Experience the magical tattoo."</p>
 <p>The boy stepped forward.</p>
-
 <p>And the man closed the door behind him.</p>
-
 <p>It was the same witch.</p>
-
 <p>The evil had returned.</p>
-
 <p>And somewhere beyond the darkness, other witches were still waiting.</p>
-
 <p>Witches sent by Satan.</p>
-
 <p>But there was one thing they didn't understand.</p>
-
 <p>Whenever evil rose against humanity, Heaven would never remain silent.</p>
-
 <p>The angels were still watching.</p>
-
-</div>
-
-<div class="scene-break">THE END</div>
-
-</section>
-
-<!-- MORAL -->
-
-<section class="moral">
-
-    <h2>A FINAL THOUGHT</h2>
-
-    <div class="hero-line"></div>
-
-    <p>
-        Sometimes, the greatest battle isn't between Heaven and Hell,
-        but between the darkness within us and the light we choose to protect.
-    </p>
-
-</section>
-
+<p class="impact">THE END.</p>
+      </div>
+    </section>
 </main>
 
-<footer>
-
-    <div class="footer-title">THE HARBOUR</div>
-
-    <div class="footer-divider"></div>
-
-    <div class="credit-label">AUTHOR</div>
-    <div class="credit-name">SABARISH P</div>
-    <div class="credit-sub">B.TECH IT</div>
-
-    <div class="credit-label">WEB NOVEL — DESIGNED & DEVELOPED BY</div>
-    <div class="credit-name">SABARISH P</div>
-    <div class="credit-sub">B.TECH IT · 2026</div>
-
-    <div class="copyright">
-        AN ORIGINAL FICTIONAL STORY · ALL RIGHTS RESERVED
-    </div>
-
-</footer>
-
-<script>
-
-/* =====================================
-   CINEMATIC SNOWFALL
-===================================== */
-
-const canvas = document.getElementById("snow");
-const ctx = canvas.getContext("2d");
-
-let snowflakes = [];
-let snowEnabled = true;
-
-function resizeSnow() {
-    canvas.width = window.innerWidth * devicePixelRatio;
-    canvas.height = window.innerHeight * devicePixelRatio;
-
-    canvas.style.width = window.innerWidth + "px";
-    canvas.style.height = window.innerHeight + "px";
-
-    ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
-
-    snowflakes = [];
-
-    const count = Math.min(180,Math.floor(window.innerWidth / 5));
-
-    for(let i=0;i<count;i++) {
-        snowflakes.push({
-            x: Math.random()*window.innerWidth,
-            y: Math.random()*window.innerHeight,
-            radius: Math.random()*2.5+.5,
-            speed: Math.random()*.9+.3,
-            drift: Math.random()*.8-.4,
-            opacity: Math.random()*.65+.2,
-            phase: Math.random()*Math.PI*2
-        });
-    }
-}
-
-function drawSnow() {
-
-    ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
-
-    if(!snowEnabled) {
-        requestAnimationFrame(drawSnow);
-        return;
-    }
-
-    snowflakes.forEach(f=>{
-
-        f.phase += .01;
-
-        f.x += f.drift + Math.sin(f.phase)*.25;
-        f.y += f.speed;
-
-        if(f.y > window.innerHeight+5) {
-            f.y = -5;
-            f.x = Math.random()*window.innerWidth;
-        }
-
-        if(f.x > window.innerWidth+5) f.x = -5;
-        if(f.x < -5) f.x = window.innerWidth+5;
-
-        ctx.beginPath();
-
-        ctx.arc(f.x,f.y,f.radius,0,Math.PI*2);
-
-        ctx.fillStyle = `rgba(255,255,255,${f.opacity})`;
-
-        ctx.shadowBlur = f.radius*5;
-        ctx.shadowColor = "white";
-
-        ctx.fill();
-
-    });
-
-    ctx.shadowBlur = 0;
-
-    requestAnimationFrame(drawSnow);
-}
-
-resizeSnow();
-drawSnow();
-
-window.addEventListener("resize",resizeSnow);
-
-document.getElementById("snowBtn").addEventListener("click",function(){
-
-    snowEnabled = !snowEnabled;
-
-    this.textContent = snowEnabled ? "SNOW: ON" : "SNOW: OFF";
-
-    this.classList.toggle("active",snowEnabled);
-
-});
-
-/* =====================================
-   CHAPTER REVEAL ANIMATIONS
-===================================== */
-
-const observer = new IntersectionObserver(entries=>{
-
-    entries.forEach(entry=>{
-
-        if(entry.isIntersecting) {
-            entry.target.classList.add("visible");
-        }
-
-    });
-
-},{threshold:.08});
-
-document.querySelectorAll(".chapter").forEach(chapter=>{
-    observer.observe(chapter);
-});
-
-/* =====================================
-   CINEMATIC SOUND ENGINE
-   Browser-generated audio
-===================================== */
-
-let audioContext = null;
-let masterGain = null;
-let ambientTimer = null;
-let soundEnabled = false;
-
-function initAudio() {
-
-    if(audioContext) return;
-
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-    masterGain = audioContext.createGain();
-
-    masterGain.gain.value = .32;
-
-    masterGain.connect(audioContext.destination);
-
-}
-
-/* Atmospheric wind */
-
-function playWind() {
-
-    if(!soundEnabled) return;
-
-    const duration = 4;
-    const buffer = audioContext.createBuffer(
-        1,
-        audioContext.sampleRate*duration,
-        audioContext.sampleRate
-    );
-
-    const data = buffer.getChannelData(0);
-
-    for(let i=0;i<data.length;i++) {
-        data[i] = (Math.random()*2-1)*.5;
-    }
-
-    const source = audioContext.createBufferSource();
-    const filter = audioContext.createBiquadFilter();
-    const gain = audioContext.createGain();
-
-    source.buffer = buffer;
-
-    filter.type = "lowpass";
-    filter.frequency.value = 280;
-
-    gain.gain.setValueAtTime(.0001,audioContext.currentTime);
-    gain.gain.linearRampToValueAtTime(.13,audioContext.currentTime+1);
-    gain.gain.linearRampToValueAtTime(.0001,audioContext.currentTime+duration);
-
-    source.connect(filter);
-    filter.connect(gain);
-    gain.connect(masterGain);
-
-    source.start();
-}
-
-/* Deep cinematic thunder */
-
-function playThunder() {
-
-    if(!soundEnabled) return;
-
-    const duration = 3.5;
-
-    const buffer = audioContext.createBuffer(
-        1,
-        audioContext.sampleRate*duration,
-        audioContext.sampleRate
-    );
-
-    const data = buffer.getChannelData(0);
-
-    for(let i=0;i<data.length;i++) {
-        const envelope = Math.pow(1-i/data.length,2);
-        data[i] = (Math.random()*2-1)*envelope;
-    }
-
-    const source = audioContext.createBufferSource();
-    const filter = audioContext.createBiquadFilter();
-    const gain = audioContext.createGain();
-
-    source.buffer = buffer;
-
-    filter.type = "lowpass";
-    filter.frequency.value = 180;
-
-    gain.gain.setValueAtTime(.65,audioContext.currentTime);
-    gain.gain.exponentialRampToValueAtTime(.001,audioContext.currentTime+duration);
-
-    source.connect(filter);
-    filter.connect(gain);
-    gain.connect(masterGain);
-
-    source.start();
-
-    setTimeout(()=>{
-        if(soundEnabled) playThunderRumble();
-    },700);
-}
-
-function playThunderRumble() {
-
-    if(!soundEnabled) return;
-
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
-
-    oscillator.type = "sine";
-
-    oscillator.frequency.setValueAtTime(55,audioContext.currentTime);
-    oscillator.frequency.exponentialRampToValueAtTime(28,audioContext.currentTime+2);
-
-    gain.gain.setValueAtTime(.001,audioContext.currentTime);
-    gain.gain.linearRampToValueAtTime(.25,audioContext.currentTime+.2);
-    gain.gain.exponentialRampToValueAtTime(.001,audioContext.currentTime+2.5);
-
-    oscillator.connect(gain);
-    gain.connect(masterGain);
-
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime+2.5);
-}
-
-/* Sudden cinematic impact */
-
-function playImpact() {
-
-    if(!soundEnabled) return;
-
-    const now = audioContext.currentTime;
-
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
-
-    oscillator.type = "sawtooth";
-
-    oscillator.frequency.setValueAtTime(120,now);
-    oscillator.frequency.exponentialRampToValueAtTime(25,now+.45);
-
-    gain.gain.setValueAtTime(.001,now);
-    gain.gain.linearRampToValueAtTime(.9,now+.015);
-    gain.gain.exponentialRampToValueAtTime(.001,now+.8);
-
-    oscillator.connect(gain);
-    gain.connect(masterGain);
-
-    oscillator.start();
-    oscillator.stop(now+.8);
-}
-
-/* Horror stinger */
-
-function playStinger() {
-
-    if(!soundEnabled) return;
-
-    const now = audioContext.currentTime;
-
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
-
-    oscillator.type = "triangle";
-
-    oscillator.frequency.setValueAtTime(950,now);
-    oscillator.frequency.exponentialRampToValueAtTime(75,now+1.1);
-
-    gain.gain.setValueAtTime(.001,now);
-    gain.gain.linearRampToValueAtTime(.55,now+.025);
-    gain.gain.exponentialRampToValueAtTime(.001,now+1.2);
-
-    oscillator.connect(gain);
-    gain.connect(masterGain);
-
-    oscillator.start();
-    oscillator.stop(now+1.2);
-}
-
-/* Ambient sound control */
-
-function startAmbient() {
-
-    if(ambientTimer) clearInterval(ambientTimer);
-
-    playWind();
-
-    ambientTimer = setInterval(()=>{
-
-        if(!soundEnabled) return;
-
-        playWind();
-
-        if(Math.random()>.65) {
-            setTimeout(playThunder,Math.random()*1200);
-        }
-
-    },6500);
-
-}
-
-function stopAmbient() {
-
-    clearInterval(ambientTimer);
-    ambientTimer = null;
-}
-
-/* Sound toggle */
-
-document.getElementById("soundBtn").addEventListener("click",async function(){
-
-    initAudio();
-
-    if(audioContext.state === "suspended") {
-        await audioContext.resume();
-    }
-
-    soundEnabled = !soundEnabled;
-
-    this.textContent = soundEnabled ? "SOUND: ON" : "SOUND: OFF";
-
-    this.classList.toggle("active",soundEnabled);
-
-    if(soundEnabled) {
-        startAmbient();
-    } else {
-        stopAmbient();
-    }
-
-});
-
-/* =====================================
-   CONTROLLED JUMP-SCARE EFFECTS
-===================================== */
-
-const scareScenes = [
-    {
-        id:"chapter2",
-        sound:playStinger
-    },
-    {
-        id:"chapter3",
-        sound:playImpact
-    },
-    {
-        id:"chapter4",
-        sound:playStinger
-    },
-    {
-        id:"chapter6",
-        sound:playImpact
-    },
-    {
-        id:"chapter7",
-        sound:playThunder
-    },
-    {
-        id:"chapter8",
-        sound:playStinger
-    }
-];
-
-const playedScares = new Set();
-
-const scareObserver = new IntersectionObserver(entries=>{
-
-    entries.forEach(entry=>{
-
-        if(entry.isIntersecting && soundEnabled) {
-
-            const scene = scareScenes.find(s=>s.id===entry.target.id);
-
-            if(scene && !playedScares.has(scene.id)) {
-
-                playedScares.add(scene.id);
-
-                scene.sound();
-
-                if(scene.id==="chapter7") {
-
-                    const flash = document.getElementById("flash");
-
-                    flash.classList.remove("trigger");
-
-                    void flash.offsetWidth;
-
-                    flash.classList.add("trigger");
-
-                }
-
-            }
-
-        }
-
-    });
-
-},{threshold:.65});
-
-scareScenes.forEach(scene=>{
-
-    const element = document.getElementById(scene.id);
-
-    if(element) scareObserver.observe(element);
-
-});
-
-</script>
-
+<section class="closing">
+  <div class="closing-kicker">THE END</div>
+  <h2>SOME CURSES<br>NEVER DIE.</h2>
+  <p>Whenever evil rises against humanity, Heaven will never remain silent.</p>
+  <div class="closing-rule"></div>
+  <div class="credits">
+    <strong>THE MYSTERY TATTOO</strong><br>
+    WRITTEN BY SABARISH P<br>
+    B.TECH IT
+  </div>
+</section>
+<footer>AN ORIGINAL WORK · ALL RIGHTS RESERVED</footer>
 </body>
 </html>
